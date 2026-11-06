@@ -1,0 +1,2973 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>阻詐偵探社</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E6EBF2; --surface:#F6F8FB; --card:#FFFDF6; --ink:#0E2240; --muted:#56687F; --line:#C5D0DD;
+  --lamp:#F2C744; --glow:rgba(242,199,68,.30); --blue:#1B7FE0; --red:#E0483E; --mark:rgba(242,199,68,.45);
+  --btn:#0F3D7A; --btn-ink:#FFFFFF;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#071328; --surface:#0E1E3B; --card:#132747; --ink:#E6ECF5; --muted:#8EA2BE; --line:#22385E;
+    --glow:rgba(242,199,68,.13); --mark:rgba(242,199,68,.28); --btn:#F2C744; --btn-ink:#0B1A33;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#071328; --surface:#0E1E3B; --card:#132747; --ink:#E6ECF5; --muted:#8EA2BE; --line:#22385E;
+  --glow:rgba(242,199,68,.13); --mark:rgba(242,199,68,.28); --btn:#F2C744; --btn-ink:#0B1A33;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  background:radial-gradient(ellipse 90% 55% at 50% -8%, var(--glow), transparent 70%) no-repeat, var(--bg);
+  background-attachment:fixed;
+  color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+main{max-width:520px;margin:0 auto;padding:28px 20px 48px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+.screen{display:none}
+.screen.on{display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:900;margin:0}
+.muted{color:var(--muted)}
+.primary{display:block;width:100%;border:0;border-radius:6px;padding:15px 18px;background:var(--btn);color:var(--btn-ink);font-weight:700;font-size:1.02rem;letter-spacing:.06em}
+.primary[disabled]{opacity:.35;cursor:not-allowed}
+.ghost{border:1.5px solid var(--line);background:transparent;border-radius:6px;padding:12px 16px;width:100%;font-weight:500}
+.fine{font-size:.78rem;color:var(--muted);margin-top:28px;text-align:center}
+.step{font-size:.85rem;color:var(--muted);margin:0 0 6px;font-variant-numeric:tabular-nums}
+
+/* home */
+.brand{font-size:2.6rem;line-height:1.15;letter-spacing:.08em;margin:24px 0 10px}
+.tag{font-family:var(--serif);color:var(--muted);margin:0 0 34px;font-size:1.05rem}
+.files{display:flex;flex-direction:column;gap:12px}
+.file{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:14px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--lamp);border-radius:4px 10px 10px 4px;padding:16px}
+.file .no{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--muted)}
+.file h3{font-size:1.15rem;line-height:1.35}
+.file small{display:block;color:var(--muted);font-size:.85rem;margin-top:2px}
+.file .st{font-size:.8rem;font-weight:700;color:var(--blue)}
+.file[disabled]{border-left-color:var(--line);opacity:.55;cursor:default}
+.file[disabled] .st{color:var(--muted)}
+
+/* case opening: the one orchestrated moment */
+.dossier{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:6px;padding:30px 22px 26px;margin:14px 0 22px}
+.stamp{position:absolute;top:16px;right:14px;transform:rotate(-12deg);border:3px solid var(--red);color:var(--red);font-family:var(--serif);font-weight:900;font-size:1.05rem;letter-spacing:.3em;padding:2px 6px 2px 10px;border-radius:4px;opacity:.85}
+.dossier .no{font-family:var(--serif);color:var(--muted);margin:0 0 4px}
+.dossier h1{font-size:2rem;line-height:1.25;margin-bottom:22px}
+.soup p{font-family:var(--serif);font-size:1.18rem;line-height:1.95;margin:0 0 6px;min-height:1.95em}
+.soup p.q{color:var(--muted);margin-top:14px}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--lamp);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.role{background:var(--surface);border-radius:8px;padding:14px 16px;margin-bottom:18px;font-size:.98rem}
+.role b{font-family:var(--serif)}
+.skip{display:block;margin:0 auto 12px;border:0;background:none;color:var(--muted);font-size:.88rem;text-decoration:underline}
+
+/* scene */
+.hint{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:8px 0 14px}
+.hint p{margin:0;font-size:.95rem}
+.tally{font-family:var(--serif);font-weight:700;white-space:nowrap}
+.script{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.line{display:block;width:100%;text-align:left;border:1.5px solid transparent;background:none;border-radius:8px;padding:8px 10px;position:relative}
+.line .who{display:block;font-size:.8rem;color:var(--muted);font-weight:700;letter-spacing:.05em}
+.line .t{font-size:1.04rem}
+.line.narr .t{font-family:var(--serif);color:var(--muted)}
+.line.you{background:var(--surface);cursor:default}
+div.line{cursor:default}
+button.line:hover{border-color:var(--line)}
+.line.marked{border-color:var(--lamp)}
+.line.marked .t{background:linear-gradient(transparent 55%, var(--mark) 55%)}
+.line.marked::after{content:"警訊";position:absolute;top:-9px;right:10px;background:var(--lamp);color:#0B1A33;font-size:.72rem;font-weight:700;padding:0 7px;border-radius:3px}
+
+/* questions */
+.trust{display:flex;align-items:center;gap:8px;margin:6px 0 18px;font-size:.92rem}
+.trust i{width:14px;height:14px;border-radius:50%;border:2px solid var(--lamp);display:inline-block}
+.trust i.on{background:var(--lamp);box-shadow:0 0 10px var(--glow)}
+.qs{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.qcard{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:14px 16px;font-size:1rem}
+.qcard[disabled]{cursor:default}
+.qcard.used{border-color:var(--lamp)}
+.qcard.spent{opacity:.4}
+.reply{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-family:var(--serif)}
+.qcard.used .reply{display:block}
+.left{font-family:var(--serif);font-weight:700}
+
+/* verdict */
+.vs{display:flex;flex-direction:column;gap:10px;margin:16px 0 22px}
+.v{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px}
+.v.pick{border-color:var(--lamp);box-shadow:0 0 0 2px var(--lamp) inset}
+
+/* reveal */
+.truth{background:var(--card);border:1.5px solid var(--line);border-radius:6px;padding:24px 22px;margin:14px 0 18px}
+.truth h2{font-size:1.25rem;margin-bottom:12px}
+.truth p{font-family:var(--serif);margin:0 0 10px;line-height:1.95}
+.ending{border-left:4px solid var(--lamp);padding:4px 0 4px 16px;margin:0 0 22px;font-family:var(--serif);font-size:1.08rem;line-height:1.95}
+.rank{text-align:center;margin:8px 0 18px}
+.rank small{display:block;color:var(--muted)}
+.rank h2{font-size:2.1rem;letter-spacing:.1em}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;text-align:center}
+.score div{background:var(--surface);border-radius:8px;padding:12px 6px}
+.score b{display:block;font-family:var(--serif);font-size:1.35rem}
+.score span{font-size:.8rem;color:var(--muted)}
+.notes h3{font-size:1.1rem;margin:0 0 10px}
+.notes ol{margin:0 0 18px;padding-left:1.3em}
+.notes li{margin-bottom:8px}
+.notes li b{font-family:var(--serif)}
+.mt{margin-top:12px}
+
+.mt{margin-top:12px}
+/* stats */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 26px;text-align:center}
+.kpis div{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:14px 6px}
+.kpis b{display:block;font-family:var(--serif);font-size:1.6rem;line-height:1.2}
+.kpis span{font-size:.8rem;color:var(--muted)}
+.stats h3{font-size:1.05rem;margin:0 0 10px}
+.bars{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.bar{display:grid;grid-template-columns:8.5em 1fr 3.2em;align-items:center;gap:10px;font-size:.92rem}
+.bar .tr{height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar .fi{height:100%;border-radius:99px;background:var(--lamp);transition:width .6s ease}
+.bar.warn .fi{background:var(--red)}
+.bar b{font-family:var(--serif);text-align:right;font-variant-numeric:tabular-nums}
+.small{font-size:.82rem;margin:-4px 0 24px}
+.prepost{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px;margin-bottom:10px;text-align:center}
+.prepost span{display:block;font-size:.8rem;color:var(--muted)}
+.prepost b{font-family:var(--serif);font-size:2.2rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.prepost .post b{color:var(--blue)}
+.prepost i{font-style:normal;font-size:1.6rem;color:var(--lamp)}
+.dims{display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
+.dim{display:grid;grid-template-columns:5em 1fr;gap:10px;align-items:center;font-size:.92rem}
+.dim .rows{display:flex;flex-direction:column;gap:4px}
+.dim .r{display:grid;grid-template-columns:1fr 4.6em;gap:8px;align-items:center}
+.dim .tr{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.dim .fi{height:100%;border-radius:99px;transition:width .6s ease}
+.dim .pre .fi{background:var(--muted)}
+.dim .post .fi{background:var(--lamp)}
+.dim .r b{font-family:var(--serif);font-size:.85rem;text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--muted);margin:2px 0 24px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.people{display:flex;flex-direction:column;margin-bottom:24px;border-top:1px solid var(--line)}
+.person{display:grid;grid-template-columns:4.5em 1fr auto;gap:10px;align-items:center;padding:9px 2px;border-bottom:1px solid var(--line);font-size:.95rem;font-variant-numeric:tabular-nums}
+.person .sc{font-family:var(--serif)}
+.person .d{font-family:var(--serif);font-weight:700}
+.person .d.up{color:var(--green,#4CAF7D)}
+.person .d.down{color:var(--red)}
+.people p{margin:10px 0 0;font-size:.85rem;color:var(--muted)}
+/* stamp card */
+.stampcard{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:16px;margin:0 0 22px}
+.sc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.sc-head h2{font-size:1.1rem}
+.sc-head span{font-size:.9rem;color:var(--muted);font-family:var(--serif);font-weight:700}
+.slots{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media (max-width:420px){.slots{grid-template-columns:repeat(3,1fr)}}
+.slot{aspect-ratio:1;border:2px dashed var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--muted);font-family:var(--serif)}
+.slot.got{border:0}
+.slot svg,.earned svg{display:block;width:100%;height:100%}
+.st.t1{color:#B87333}.st.t2{color:#8E9AAB}.st.t3{color:#D9A520}
+.earned{display:flex;align-items:center;gap:14px;justify-content:center;margin:-4px 0 24px}
+.earned .big{width:88px;height:88px;flex:none}
+.earned p{margin:0;font-family:var(--serif);font-weight:700;font-size:1.05rem}
+.earned small{display:block;color:var(--muted);font-weight:400;font-family:var(--sans);font-size:.85rem}
+@media (prefers-reduced-motion:no-preference){.earned .big.new{animation:stampIn .55s cubic-bezier(.2,1.6,.4,1) both}@keyframes stampIn{from{transform:scale(1.9);opacity:0}to{transform:none;opacity:1}}}
+/* notes: color-coded review items */
+#notes{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px}
+#notes li{margin:0;background:var(--surface);border-left:4px solid var(--line);border-radius:4px 8px 8px 4px;padding:10px 12px;font-size:.95rem;line-height:1.7}
+.ntag{display:inline-block;font-size:.74rem;font-weight:700;line-height:1.6;padding:0 8px;border-radius:99px;margin-right:6px;vertical-align:1px;color:#fff;white-space:nowrap}
+#notes li.n-hit{border-left-color:#4CAF7D}.n-hit .ntag{background:#3E9A6C}
+#notes li.n-miss{border-left-color:#E0483E}.n-miss .ntag{background:#D23F35}
+#notes li.n-decoy{border-left-color:#D9A520}.n-decoy .ntag{background:#B5860F}
+#notes li.n-ask{border-left-color:#1B7FE0}.n-ask .ntag{background:#1B6FC8}
+#notes li.n-follow{border-left-color:#6A5ACD}.n-follow .ntag{background:#5B4DC0}
+#notes li.n-key{border-left-color:#E0483E;background:transparent;border-top:1.5px dashed #E0483E;border-right:1.5px dashed #E0483E;border-bottom:1.5px dashed #E0483E}
+.n-key .ntag{background:transparent;color:#E0483E;border:1.5px solid #E0483E}
+.review07 .notelist{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px}
+.review07 .notelist li{margin:0;background:var(--surface);border-left:4px solid var(--line);border-radius:4px 8px 8px 4px;padding:10px 12px;font-size:.95rem;line-height:1.7}
+.review07 .notelist li.n-hit{border-left-color:#4CAF7D}
+.review07 .notelist li.n-miss{border-left-color:#E0483E}
+.review07 .notelist li.n-decoy{border-left-color:#D9A520}
+.review07 .notelist li.n-ask{border-left-color:#1B7FE0}
+.review07 .notelist li.n-follow{border-left-color:#6A5ACD}
+.review07 .notelist li.n-key{background:transparent;border:1.5px dashed #E0483E;border-left:4px solid #E0483E}
+.feedback07.done07{border-left:4px solid #4CAF7D}
+.feedback07.todo07{border-left:4px solid #E0483E}
+.feedback07.extra07{border-left:4px solid #1B7FE0}
+.fbnote{margin:4px 0 0;font-size:.88rem}
+/* case analysis */
+.atabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.atab{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.85rem}
+.atab.on{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
+.acase{margin-bottom:26px}
+.acase h4{font-family:var(--serif);font-size:1rem;margin:22px 0 8px}
+.acase>h4:first-child{font-size:1.15rem;margin-top:0}
+.amini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.amini div{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:10px 4px}
+.amini b{display:block;font-family:var(--serif);font-size:1.3rem;line-height:1.3}
+.amini span{font-size:.78rem;color:var(--muted)}
+.insight{margin-top:14px;background:var(--card);border:1.5px solid var(--line);border-left:4px solid var(--lamp);border-radius:4px 8px 8px 4px;padding:12px 14px}
+.insight ul{margin:6px 0 0;padding-left:1.2em;font-size:.93rem}
+.insight li{margin-bottom:4px}
+.arow{margin-bottom:12px;font-size:.9rem;line-height:1.55}
+.arow .al{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.arow .al b{font-family:var(--serif);font-variant-numeric:tabular-nums;white-space:nowrap}
+.arow .tr{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:4px}
+.arow .fi{height:100%;border-radius:99px;background:var(--lamp)}
+.arow.bad .fi{background:var(--red)}
+.arow.good .fi{background:#4CAF7D}
+.tagb{display:inline-block;font-size:.7rem;font-weight:700;padding:0 6px;border-radius:3px;margin-left:6px;color:#fff;background:#3E9A6C;vertical-align:1px}
+.arow.bad .tagb{background:#D23F35}
+/* result page readability */
+.endlabel{font-size:.85rem;color:var(--muted);margin:0 0 6px;font-weight:700;letter-spacing:.05em}
+#demoFeedback{margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+#demoFeedback>h2{font-size:1.3rem;margin:2px 0 6px}
+#demoFeedback .feedback07{padding:16px 18px;margin:14px 0}
+#demoFeedback .feedback07>b{display:block;font-size:1.05rem}
+#demoFeedback .feedback07 .fbnote{margin:4px 0 0}
+#demoFeedback .feedback07 ul{padding-left:1.2em;margin:12px 0 0}
+#demoFeedback .feedback07 li{margin:0 0 12px;line-height:1.8}
+#demoFeedback .feedback07 li:last-child{margin-bottom:0}
+#demoFeedback .next07{border-left:4px solid var(--lamp);background:var(--surface)}
+#demoFeedback .next07 p{font-family:var(--serif);font-size:1.08rem;line-height:1.8;margin:10px 0 0}
+#demoFeedback .fbmeta{font-size:.82rem;line-height:1.6;margin:6px 0 26px}
+#demoFeedback .review07{border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:0;margin:0 0 12px}
+#demoFeedback .review07>summary{list-style:none;padding:15px 18px;font-family:var(--serif);font-size:1.05rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#demoFeedback .review07>summary::-webkit-details-marker{display:none}
+#demoFeedback .review07>summary::after{content:"＋";color:var(--muted);font-weight:400;font-size:1.2rem}
+#demoFeedback .review07[open]>summary::after{content:"－"}
+#demoFeedback .review07[open]>summary{border-bottom:1px solid var(--line)}
+#demoFeedback .review07>div{padding:6px 18px 16px}
+#demoFeedback .review07 h3{font-size:1.02rem;margin:24px 0 12px}
+#demoFeedback .review07>div>p{line-height:1.9;margin:12px 0}
+#demoFeedback .review07 ul li{line-height:1.8;margin:0 0 10px}
+#demoFeedback .soplist{list-style:none;counter-reset:s;padding:18px 18px 4px;margin:0}
+#demoFeedback .soplist li{counter-increment:s;position:relative;padding-left:40px;margin:0 0 18px;line-height:1.75}
+#demoFeedback .soplist li::before{content:counter(s);position:absolute;left:0;top:1px;width:27px;height:27px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+#demoFeedback .soplist li b{display:block;font-family:var(--serif);margin-bottom:2px}
+.sop{margin-top:6px;background:var(--card);border:1.5px solid var(--line);border-top:4px solid var(--blue);border-radius:6px;padding:20px 20px 8px}
+.sop h3{font-size:1.1rem;margin:0 0 2px}
+.sop>p.muted{margin:0 0 16px;font-size:.92rem}
+.sop ol{list-style:none;counter-reset:s;margin:0;padding:0}
+.sop li{counter-increment:s;position:relative;padding:0 0 14px 40px;font-size:.96rem}
+.sop li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.sop li b{display:block;font-family:var(--serif)}
+.sop .fine{text-align:left;margin:2px 0 12px}
+.sfx-toggle{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:20;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.8rem;color:var(--muted)}
+.portrait svg{display:block;width:100%;height:auto}
+.dhead{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:end;margin-bottom:22px;padding-right:56px}
+.dhead h1{margin-bottom:0}
+.photo{background:#fff;padding:5px 5px 14px;box-shadow:0 6px 16px rgba(0,0,0,.28);transform:rotate(-3deg);position:relative}
+.photo::before{content:"";position:absolute;top:-12px;left:34px;width:11px;height:30px;border:2.5px solid #9AA5B4;border-radius:8px;transform:rotate(8deg)}
+.thumb{width:52px;border-radius:6px;overflow:hidden;align-self:center}
+.file small:first-child{margin:0 0 1px}
+.line .who{display:flex;align-items:center;gap:6px}
+.av{display:inline-block;width:26px;height:26px;border-radius:50%;overflow:hidden;flex:none}
+@media (prefers-reduced-motion:reduce){.caret{animation:none}}
+
+/* Interactive case preview */
+[hidden]{display:none!important}
+.demoentry07{padding:22px 20px;margin:22px 0;background:var(--card);border:1.5px solid var(--lamp);border-radius:12px}
+.demoentry07 h2{font-size:1.3rem;margin:10px 0}.demoentry07 p{color:var(--muted)}
+.demoentry07 small{display:block;text-align:center;margin-top:12px;color:var(--muted)}
+.demotag07{color:var(--muted);font-size:.82rem;font-weight:700;letter-spacing:.04em}
+.conversation07,.knowledge07{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0 20px}
+.conversation07 h3,.knowledge07 h3{font-size:1rem;margin:0 0 12px}.conversation07 p{margin:8px 0 16px}
+.conversation07 .talk07{color:var(--muted);font-size:.9rem;border-left:3px solid var(--blue);padding-left:10px;margin-bottom:6px}
+.repair07{margin:0 0 18px;text-align:left}.knowledge07 ul{padding-left:22px}.knowledge07 li{margin-bottom:8px}
+.feedback07{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:16px;margin:12px 0}
+.feedback07 b{font-family:var(--serif)}.feedback07 ul{padding-left:20px;margin:8px 0}.feedback07 li{margin:8px 0}
+.next07{border-left:4px solid var(--blue)}.next07 p{margin:10px 0 0;font-family:var(--serif)}
+.review07{border-bottom:1px solid var(--line);padding:16px 0}.review07 summary{cursor:pointer;font-weight:700}
+.review07 p,.review07 li{margin:12px 0}.review07 ol{padding-left:22px}
+
+.eventAlert{border-left:3px solid var(--red);padding:10px 12px;background:var(--card)}
+</style>
+</head>
+<body>
+<button class="sfx-toggle" id="sfxBtn" aria-pressed="true">音效：開</button>
+<main>
+
+<!-- HOME -->
+<section class="screen on" id="s-home">
+  <h1 class="brand">阻詐偵探社</h1>
+  <p class="tag">每一次資金安排背後，<br>都可能有人在等保戶作出決定。</p>
+  <p class="muted" style="max-width:620px;margin:0 auto 24px;line-height:1.8"><b>防詐情境推理訓練</b><br>從櫃台對話找出詐騙警訊，透過關懷提問釐清真實用途，練習查證、協同與適當的阻詐處理。故事中的謎團，都是為了看清詐騙如何發生。</p>
+  <div class="stampcard">
+    <div class="sc-head"><h2>偵探集章卡</h2><span id="scCount"></span></div>
+    <div class="slots" id="slots"></div>
+  </div>
+  <div class="files" id="files"></div>
+  <button class="ghost mt" id="statsBtn" hidden>查看全場數據</button>
+  <p class="fine">提案示意版：案件依常見風險情境設計，人物與情節皆為虛構。</p>
+</section>
+
+<!-- CASE OPENING -->
+<section class="screen" id="s-open">
+  <div class="dossier">
+    <span class="stamp" aria-hidden="true">機密</span>
+    <div class="dhead"><div class="photo portrait" id="casePhoto"></div><div><p class="no" id="caseNo"></p><h1 id="caseTitle"></h1></div></div>
+    <div class="soup" id="soup" aria-live="polite"></div>
+  </div>
+  <button class="skip" id="skip">略過動畫</button>
+  <div id="afterSoup" hidden>
+    <div class="role" id="role"></div>
+    <button class="primary" id="enter">進入現場</button>
+  </div>
+</section>
+
+<!-- SCENE -->
+<section class="screen" id="s-scene">
+  <p class="step">第一幕／現場</p>
+  <h2>櫃台前的對話</h2>
+  <div class="hint">
+    <p class="muted">請標記 1–3 處可能涉及詐騙或需要進一步查證的關鍵句子。一般服務需求與背景資訊不等於詐騙警訊。</p>
+    <span class="tally" id="tally">0 / 3</span>
+  </div>
+  <div class="script" id="script"></div>
+  <button class="primary" id="toQ" disabled>標記完成，開始提問</button>
+</section>
+
+<!-- QUESTIONS -->
+<section class="screen" id="s-q">
+  <p class="step">第二幕／提問</p>
+  <h2 id="qTitle"></h2>
+  <p class="muted">最多問兩題。先把需要知道的事問清楚，也留意對方已提供的合理說明。</p>
+  <div class="trust" id="trust"></div>
+  <div id="demoTranscript" class="conversation07" aria-live="polite" hidden></div>
+  <button class="ghost repair07" id="repair07" hidden>換個說法，重新開口（不耗提問卡）</button>
+  <div class="qs" id="qs"></div>
+  <p class="muted" id="qleft"></p>
+  <button class="primary" id="toV" disabled>做出判斷</button>
+</section>
+
+<!-- VERDICT -->
+<section class="screen" id="s-v">
+  <p class="step">第三幕／判斷</p>
+  <h2 id="vTitle"></h2>
+  <div id="caseKnowledge" class="knowledge07" hidden></div>
+  <div class="vs" id="vs"></div>
+  <button class="primary" id="toR" disabled>揭曉真相</button>
+</section>
+
+<section class="screen" id="s-refusal">
+  <p class="step">第四幕／對方沒有立刻答應</p>
+  <h2>這句話，你怎麼接？</h2>
+  <div class="truth"><p id="refusalStory"></p></div>
+  <p class="muted">先回應眼前的反應，再考慮如何接續關懷。</p>
+  <div class="vs" id="follow07"></div>
+  <button class="primary" id="finish07" disabled>完成應對，查看回饋</button>
+</section>
+
+<!-- REVEAL -->
+<section class="screen" id="s-r">
+  <p class="step">本回合結束</p>
+  <div class="rank"><small>你的偵探評級</small><h2 id="rank"></h2></div>
+  <div class="earned" id="earned"></div>
+  <div class="score">
+    <div><b id="scClue"></b><span>關鍵線索</span></div>
+    <div><b id="scTrust"></b><span id="scoreTalkLabel">信任值</span></div>
+    <div><b id="scV"></b><span id="scoreActionLabel">處理方式</span></div>
+  </div>
+  <p class="endlabel">本案結局</p>
+  <div class="ending" id="ending"></div>
+  <div id="demoFeedback" hidden></div>
+  <div class="truth" id="truthCard">
+    <h2>真相</h2>
+    <div id="truthBody"></div>
+  </div>
+  <div class="notes" id="notesCard">
+    <h3>偵探筆記</h3>
+    <ol id="notes"></ol>
+    <h3>結案心得</h3>
+    <ol id="tips"></ol>
+  </div>
+  <div class="sop" id="sopCard">
+    <h3>櫃台實務處理</h3>
+    <p class="muted">把推理轉成防詐行動：關懷提問、辨識風險、獨立查證與適當交接。</p>
+    <ol id="sop"></ol>
+  </div>
+  <button class="primary mt" id="nextCase">挑戰下一個案件</button>
+  <button class="ghost mt" id="again">重新調查本案</button>
+  <button class="ghost mt" id="statsBtn2" hidden>查看全場數據</button>
+  <button class="ghost mt" id="home">回到案件列表</button>
+  <p class="fine">提案示意版：案件依常見風險情境設計，人物與情節皆為虛構。</p>
+</section>
+
+<!-- STATS -->
+<section class="screen stats" id="s-stats">
+  <p class="step">偵探社內部資料</p>
+  <h2>練習紀錄</h2>
+  <p class="muted" id="stNote">即時更新中</p>
+  <div class="kpis">
+    <div><b id="kPeople">—</b><span>受訓人數</span></div>
+    <div><b id="kGain">—</b><span>平均分數變化</span></div>
+    <div><b id="kUp">—</b><span>分數提高比例</span></div>
+  </div>
+  <h3>首次 vs 最近遊玩</h3>
+  <div class="prepost"><div><span>首次平均</span><b id="ppPre">—</b></div><i aria-hidden="true">→</i><div class="post"><span>最近平均</span><b id="ppPost">—</b></div></div>
+  <p class="muted small">首次／最近遊玩：每人第一次與最近一次完成的案件（需完成兩次以上）。案件可能不同，重玩亦有熟悉效果，分數變化僅供觀察，不能直接證明訓練成效。</p>
+  <h3>三面向分數變化</h3>
+  <div class="dims" id="dims"></div>
+  <h3>案件分析</h3>
+  <p class="muted small">依案件檢視最常漏掉的警訊與最常選錯的選項，作為針對性訓練的依據。</p>
+  <div class="atabs" id="aTabs"></div>
+  <div id="aBody"></div>
+  <button class="ghost" id="statsHome">回到案件列表</button>
+</section>
+
+</main>
+
+<script>
+const CASES = {
+  "10": {
+    "id": "10",
+    "title": "替她問進度的人",
+    "sub": "理賠進度｜朋友的建議",
+    "soup": [
+      "陳姐還沒坐下，手機就收到一則訊息：「今天有消息嗎？」",
+      "她回了「還在問」，又替對方解釋：「他是關心我，不是催我。」",
+      {
+        "q": "對方等的是她的消息，還是某一筆錢的消息？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問陳姐什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "陳姐",
+        "t": "想問一下，理賠現在到哪裡了？我先知道進度，不是要你們保證哪天。",
+        "decoy": "d1"
+      },
+      {
+        "who": "你",
+        "t": "好，我幫您查一下現在到哪個步驟了。什麼時候能入帳，還要等審核結果，我先把查到的跟您說。",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "陳姐",
+        "t": "病友群裡認識的朋友介紹我一個平台。我們活動見過，他也有放錢，不是隨便加我的人。",
+        "decoy": "d2"
+      },
+      {
+        "who": "陳姐",
+        "t": "每個月百分之三，說是保本的。他本來只叫我試一點，最近卻一直問我理賠有沒有消息。",
+        "clue": "c1"
+      },
+      {
+        "who": "你",
+        "t": "這個平台是哪家公司，錢要匯給誰，您有看過嗎？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "陳姐",
+        "t": "資料都是群裡貼的。助理傳網址，說要用這個註冊，另外找會找錯。我朋友也是從這裡進去。",
+        "clue": "c2"
+      },
+      {
+        "who": "旁白",
+        "t": "她打開一張付款畫面。平台的標誌在上方，下面卻是個人戶名。客服在旁註明：「指定財務窗口代收。」",
+        "narr": true,
+        "clue": "c3"
+      },
+      {
+        "who": "陳姐",
+        "t": "我沒有要把理賠金改匯別人，還是匯我自己。到時候留一些回診，其他再投。",
+        "still": true
+      },
+      {
+        "who": "旁白",
+        "t": "訊息又亮起。她只看了一眼，便把手機扣在桌上：「他自己也還沒領到。我知道他急，但為什麼一直問我的錢？」",
+        "narr": true,
+        "still": true
+      }
+    ],
+    "labels": {
+      "c1": "高額固定收益與保本承諾",
+      "c2": "僅有群組及私訊來源",
+      "c3": "個人戶名代收平台款項"
+    },
+    "explain": {
+      "c1": "<b>每月百分之三並保本，是需要查證的投資承諾。</b>先小額投入也不會讓來源不明的平台自動變安全。",
+      "c2": "<b>資訊都來自同一群組。</b>應獨立確認業者及聯絡管道，不能只用群友轉傳的截圖驗證。",
+      "c3": "<b>平台要求匯給不同名稱的個人。</b>客服的「財務代收」說法仍須獨立核對。",
+      "d1": "<b>詢問進度是正常服務需求。</b>不能因為催問就推論遭詐，也不能保證尚未核定的入帳時間。",
+      "d2": "<b>朋友也投入，不代表他能驗證平台真實。</b>朋友也可能誤信，不必預設介紹者故意害人。"
+    },
+    "qs": [
+      {
+        "t": "「這些公司資料，是您自己找到的，還是朋友和群組傳來的？」",
+        "r": "「都是群裡給的。他也沒去過公司，只是比我早加入。我們認識是真的，但他也只看過那些圖。」",
+        "key": "source",
+        "good": true,
+        "why": "熟人關係真實與平台資訊真實，是不同的確認。",
+        "drop": 0,
+        "id": "10-q0"
+      },
+      {
+        "t": "「這個戶名和平台不同，您朋友也是匯同一個人嗎？有另外查過嗎？」",
+        "r": "「他的戶名跟我不一樣。客服說是分配的財務專員，我們都不知道那些人是誰。」",
+        "key": "pay",
+        "good": true,
+        "why": "查核資金真正流向，不只確認本人理賠帳戶。",
+        "drop": 0,
+        "id": "10-q1"
+      },
+      {
+        "t": "「您剛說他也沒領到，最近為什麼一直問？您自己回診的錢還夠嗎？」",
+        "r": "「客服叫他介紹新戶，說活動做完就優先處理出金。我留一個月回診費，後面要加療程就不夠了。」",
+        "key": "pressure",
+        "good": true,
+        "why": "釐清朋友的催促與保戶支出壓力，不預設朋友明知涉詐。",
+        "drop": 0,
+        "id": "10-q2"
+      },
+      {
+        "t": "「請這位朋友再保證一次，他願意負責應該就比較放心？」",
+        "r": "「他說放得比我多，還說自己不會害我。」",
+        "key": null,
+        "good": false,
+        "why": "熟人再保證仍不能驗證業者、收款或出金。",
+        "drop": 0,
+        "id": "10-q3"
+      },
+      {
+        "t": "「您現在治療都來不及了，怎麼還相信病友說的投資？」",
+        "r": "她握緊手機。「他陪我撐過來，你們又不知道我們怎麼認識。」",
+        "key": null,
+        "good": false,
+        "why": "把疾病和信任當作責備理由，會使保戶停止說明。",
+        "drop": 2,
+        "id": "10-q4"
+      }
+    ],
+    "vs": [
+      {
+        "t": "先回覆理賠進度，入帳後怎麼使用由她自己安排。",
+        "label": "僅完成進度查詢",
+        "pts": 0,
+        "best": false,
+        "id": "10-a0"
+      },
+      {
+        "t": "提醒收益太高要小心，請朋友再確認平台的保證。",
+        "label": "仍倚賴熟人背書",
+        "pts": 5,
+        "best": false,
+        "id": "10-a1"
+      },
+      {
+        "t": "說明平台與收款的疑點，理賠依程序續辦，另接續查證。",
+        "label": "服務與關懷接續",
+        "pts": 15,
+        "best": true,
+        "id": "10-a2"
+      }
+    ],
+    "truth": [
+      "陳姐認識那位病友，也一起參加過活動。他不是憑空出現的陌生人。",
+      "【虛構情境揭曉】假的是病友相信的投資平台。平台客服鼓勵他邀請朋友，還把陳姐的資金狀況問得很細。",
+      "他每天追問，不只是想幫朋友，也因為自己有一筆款項還沒領出來。客服向他暗示，完成新戶入金的活動後，就能優先處理他的申請。",
+      "朋友自己的錢也還沒領出，解釋了他為何急切，但不能單憑這點就認定他明知涉詐。熟悉的人，也可能把尚未發現的騙局帶到另一個人面前。"
+    ],
+    "tips": [
+      "進階重點：熟人介紹不代表已經驗證；介紹者也可能受騙。",
+      "本人帳戶收款與後續投資安全，是兩個不同問題。",
+      "服務進度與風險關懷各依程序處理，不自行凍結給付。"
+    ],
+    "difficulty": "進階"
+  },
+  "11": {
+    "id": "11",
+    "title": "不能寫在申請書上的理由",
+    "sub": "保單解約｜一份保密文件",
+    "soup": [
+      "葉先生把解約理由寫成「家用」，卻帶著一張蓋有機關印章的文件。",
+      "他說：「你如果真的要幫我，就不要問這張紙。」",
+      {
+        "q": "一份聲稱要保護他的文件，為什麼讓他不敢求助？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問葉先生什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "旁白",
+        "t": "葉先生把保單與存摺放好，另外一張印著機關名稱的紙只露出一角。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "葉先生",
+        "t": "這張解約。錢匯我原來帳戶，不用改。",
+        "decoy": "d1"
+      },
+      {
+        "who": "你",
+        "t": "我先跟您說解約後會有哪些影響。這筆錢，您最近有什麼需要用到的地方嗎？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "葉先生",
+        "t": "家用。這是我自己的意思，家裡不用聯絡。",
+        "decoy": "d2"
+      },
+      {
+        "who": "你",
+        "t": "您剛拿出來那張紙，跟今天要用的錢有關嗎？如果方便，可以跟我說一下。",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "葉先生",
+        "t": "對方說我的身分被拿去開帳戶，現在在查洗錢。這份就是線上傳給我的通知，只能跟他聯絡。",
+        "clue": "c1"
+      },
+      {
+        "who": "葉先生",
+        "t": "他要我解約後把錢轉去指定帳戶，說是司法資金保全，查清楚就還我。",
+        "clue": "c2"
+      },
+      {
+        "who": "旁白",
+        "t": "他主動把一段訊息轉給你看：「只說家用，勿透露偵辦內容。」看完便把手機收回。",
+        "narr": true,
+        "clue": "c3"
+      },
+      {
+        "who": "你",
+        "t": "是不是對方有交代，不能讓其他人知道，您才不方便說？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "葉先生",
+        "t": "他說連你們都可能有人涉案，所以不能讓主管知道。我不是不相信你，我是不敢。",
+        "still": true
+      }
+    ],
+    "labels": {
+      "c1": "陌生聯繫者以刑案與文件建立權威",
+      "c2": "要求解除保單並轉入指定監管帳戶",
+      "c3": "指示隱瞞用途並排除獨立求助"
+    },
+    "explain": {
+      "c1": "<b>文件外觀與涉案說法需要獨立查證。</b>不能直接用原聯繫者提供的號碼驗證其身分。",
+      "c2": "<b>要求解約後把錢轉進指定帳戶保全。</b>這是本案最直接的財產交付警訊，匯回本人帳戶不能排除後續風險。",
+      "c3": "<b>以偵辦保密要求說假用途，並排斥主管協助。</b>對方正在控制誰可以提供不同資訊。",
+      "d1": "<b>本人帳戶與文件正確，不代表用途安全。</b>仍需確認入帳後是否按他人指示轉出。",
+      "d2": "<b>不願聯繫家人不能單獨證明遭詐。</b>關鍵是後續具體出現的監管帳戶與隱瞞指示。"
+    },
+    "qs": [
+      {
+        "t": "「最早誰打給您的？後來有沒有自己另外找機關電話問過？」",
+        "r": "「先是健保資料被冒用，再轉給警察和檢察官。一直在同一通裡，我沒有自己重打過。」",
+        "key": "source",
+        "good": true,
+        "why": "電話內的多次轉接不等於多個獨立來源。",
+        "drop": 0,
+        "id": "11-q0"
+      },
+      {
+        "t": "「錢入帳之後，對方要您怎麼交？文件有寫收款人嗎？」",
+        "r": "「還沒給帳號。說到銀行再傳訊息，他會指定司法監管戶，不能先問太多。」",
+        "key": "pay",
+        "good": true,
+        "why": "追問資金後續去向，而非只核對本次入帳帳戶。",
+        "drop": 0,
+        "id": "11-q1"
+      },
+      {
+        "t": "「如果現在先停下來查清楚，對方說會怎樣？您最擔心什麼？」",
+        "r": "「說我不配合可能拘提，還說銀行和保險公司可能有人涉案。所以不是我不信你，我是不敢問。」",
+        "key": "fear",
+        "good": true,
+        "why": "理解恐懼及資訊隔離，才能提供保戶接受的獨立協助。",
+        "drop": 0,
+        "id": "11-q2"
+      },
+      {
+        "t": "「這份通知有章，我先照上面的電話問清楚，就能幫您確認？」",
+        "r": "「好，承辦分機也在上面，他說只有他知道這件案子。」",
+        "key": null,
+        "good": false,
+        "why": "用可疑文件提供的電話驗證文件，仍在同一來源內打轉。",
+        "drop": 0,
+        "id": "11-q3"
+      },
+      {
+        "t": "「這就是假檢警，這麼明顯您還不相信我們？」",
+        "r": "他收起文件。「你們如果不讓我配合辦案，出事誰負責？」",
+        "key": null,
+        "good": false,
+        "why": "直接定性並責備，可能讓他更加依賴自稱有權威的人。",
+        "drop": 2,
+        "id": "11-q4"
+      }
+    ],
+    "vs": [
+      {
+        "t": "先完成解約核對，尊重他不方便透露偵辦內容。",
+        "label": "未釐清轉款指示",
+        "pts": 0,
+        "best": false,
+        "id": "11-a0"
+      },
+      {
+        "t": "先打通知上的承辦分機，確認這件案子是否存在。",
+        "label": "沿用對方的查證管道",
+        "pts": 5,
+        "best": false,
+        "id": "11-a1"
+      },
+      {
+        "t": "說明監管轉款與保密的疑點，請主管協助獨立查證。",
+        "label": "降低恐懼並查證",
+        "pts": 15,
+        "best": true,
+        "id": "11-a2"
+      }
+    ],
+    "truth": [
+      "【虛構情境揭曉】所謂健保窗口、警察與檢察官，是同一團伙安排的不同角色。那次電話轉接沒有連到真正機關。",
+      "對方不只拿假文件說服他，也先告訴他「金融機構可能涉案」，讓之後每一句關懷都像在阻礙辦案。",
+      "他寫「家用」，不是這個詞可疑，而是有人要求他藏起真正的資金用途。",
+      "這次需要解開的，不是紙上哪個印章像假的，而是誰在要求他交錢，以及為什麼不讓他獨立求證。"
+    ],
+    "tips": [
+      "挑戰重點：要辨識的不只是轉款要求，還有冒用權威及隔離求助的安排。",
+      "對方提供的電話、轉接與文件，不能互相當作獨立證明。",
+      "先降低保戶害怕不配合的壓力，再說明可採取的查證與協助。"
+    ],
+    "difficulty": "挑戰"
+  },
+  "12": {
+    "id": "12",
+    "title": "差最後十萬元",
+    "sub": "保單借款｜一筆想拿回的錢",
+    "soup": [
+      "王先生帶父親來到櫃台，開口卻說：「今天是我要借，不是他。」",
+      "父親低著頭，手裡一直捏著同一張報案證明。",
+      {
+        "q": "已經報過案，為什麼還需要另一筆錢？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問王先生什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "旁白",
+        "t": "王先生提出自己的保單借款申請，父親坐在旁邊。他先問父親要不要到休息區等。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "王先生",
+        "t": "我想借十萬元。要保人是我，我自己申請。",
+        "decoy": "d1"
+      },
+      {
+        "who": "你",
+        "t": "我先幫您看看能借多少，利息也一起算給您看。這十萬元打算怎麼用、之後怎麼還，方便跟我說一下嗎？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "王先生",
+        "t": "幫家裡處理之前一件事。不是投資，我知道不能再碰那個。",
+        "decoy": "d2"
+      },
+      {
+        "who": "旁白",
+        "t": "父親遞來一張報案證明。王先生手機上的聯繫者，自稱是「追款顧問」。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "王先生",
+        "t": "他知道我爸當時被騙的金額和平台名字，說已經查到錢在哪，所以我才覺得可以談。",
+        "clue": "c1"
+      },
+      {
+        "who": "王先生",
+        "t": "網頁顯示有四十八萬能領，但要先付十萬跨境驗證金。付完這次就能一起退。",
+        "clue": "c2"
+      },
+      {
+        "who": "旁白",
+        "t": "王先生主動展示付款說明：顧問要求把驗證金轉成虛擬貨幣，匯到私訊錢包，並說警方不熟悉這種追款方式，不要再拿去問。",
+        "narr": true,
+        "clue": "c3"
+      },
+      {
+        "who": "父親",
+        "t": "如果這次也不行，就算了。我不想再讓你拿自己的錢……",
+        "still": true
+      },
+      {
+        "who": "王先生",
+        "t": "我就是不想讓他覺得自己把家裡害了。對方還傳了好多追回成功的截圖，不只我爸一個人。",
+        "still": true
+      }
+    ],
+    "labels": {
+      "c1": "追款者以已知受害資料建立可信度",
+      "c2": "先付驗證金才能領回原損失",
+      "c3": "私訊錢包收款並阻止警方查證"
+    },
+    "explain": {
+      "c1": "<b>知道先前受害細節，不等於有追款能力。</b>需要釐清資訊從何而來，以及是否存在獨立可驗證的委任與機構資訊。",
+      "c2": "<b>用「再付一次就能拿回」要求新增付款。</b>網頁餘額與成功截圖不能證明款項已被追回。",
+      "c3": "<b>要求付到私訊錢包，還排除原報案管道。</b>應停止依同一來源自我驗證，循獨立管道確認。",
+      "d1": "<b>借款人是兒子本人、自己簽署，仍可能遭詐。</b>資格正確與用途真實需要分開看。",
+      "d2": "<b>強調不是投資不能排除詐騙。</b>本案可能以補救損失為名，而非邀請新投資。"
+    },
+    "qs": [
+      {
+        "t": "「這位顧問是怎麼找到的？您有傳過資料給他嗎？他什麼時候說出那些金額？」",
+        "r": "「網路有人說自己追回過，介紹我去找。我先傳報案證明，他後來才講出那些金額。我以為是他查到的。」",
+        "key": "source",
+        "good": true,
+        "why": "追問資訊取得順序，避免把本人提供的資料當作專業證明。",
+        "drop": 0,
+        "id": "12-q0"
+      },
+      {
+        "t": "「四十八萬是在哪裡看到的？有真的入帳，或請原承辦確認過嗎？」",
+        "r": "「只有他網站上的餘額，沒真的領過。也沒問承辦，他說警察不熟這個會拖慢。」",
+        "key": "evidence",
+        "good": true,
+        "why": "核對實際結果與獨立來源，而非信任可控制的畫面。",
+        "drop": 0,
+        "id": "12-q1"
+      },
+      {
+        "t": "「最早就說要付十萬嗎？如果這筆也拿不回來，借款您怎麼還？」",
+        "r": "「本來說免費，後來才說驗證金。我得自己還，已經不想再跟家裡借，也不敢問後面還有沒有費用。」",
+        "key": "burden",
+        "good": true,
+        "why": "釐清收費轉變與補救壓力，不責備受害家庭。",
+        "drop": 0,
+        "id": "12-q2"
+      },
+      {
+        "t": "「請顧問再補一張追回保證書，有蓋章應該比較保險？」",
+        "r": "「他說可以，機構章和顧問證照都能傳給我。」",
+        "key": null,
+        "good": false,
+        "why": "可疑對象補出的保證文件，仍不能取代獨立確認。",
+        "drop": 0,
+        "id": "12-q3"
+      },
+      {
+        "t": "「爸爸已經被騙過了，你們怎麼還敢再付這種錢？」",
+        "r": "王先生把父親的報案證明收起來。「不要在他面前這樣說，我們自己處理就好。」",
+        "key": null,
+        "good": false,
+        "why": "責備原受害者會使家屬收回資訊，補救壓力也沒有被理解。",
+        "drop": 2,
+        "id": "12-q4"
+      }
+    ],
+    "vs": [
+      {
+        "t": "既然有報案資料，先核對兒子借款資格與利息即可。",
+        "label": "將報案當作背書",
+        "pts": 0,
+        "best": false,
+        "id": "12-a0"
+      },
+      {
+        "t": "請顧問提供更多追回證據與保證，再繼續借款申請。",
+        "label": "仍向顧問自我求證",
+        "pts": 5,
+        "best": false,
+        "id": "12-a1"
+      },
+      {
+        "t": "分開看原報案與新收費，依借款關懷流程協助獨立確認。",
+        "label": "辨識再次付款風險",
+        "pts": 15,
+        "best": true,
+        "id": "12-a2"
+      }
+    ],
+    "truth": [
+      "【虛構情境揭曉】所謂追款顧問與成功受害者帳號，都是再次接近受害家庭的安排。",
+      "他知道平台和金額，因為王先生已提供報案資料；這些細節又被拿來當作「我們查到錢」的證明。",
+      "網站上的四十八萬元只是對方控制的顯示數字。十萬元驗證金不是追回款項的最後一步，而是新的損失入口。",
+      "這一次，被說服的人不是父親，而是想幫父親收拾後果的兒子。防詐需要保護的，也包括承受補救壓力的家人。"
+    ],
+    "tips": [
+      "挑戰重點：原受害事件與新追款者，是兩件都需要查證的事。",
+      "已知個資、報案資料、網站餘額與成功截圖，都不能單獨證明追款者可信。",
+      "理解家人補救損失的動機，不以責備父親或兒子作為關懷方式。"
+    ],
+    "difficulty": "挑戰"
+  },
+  "07": {
+    "id": "07",
+    "title": "那一千元",
+    "soup": [
+      "下午三點十分，陳阿姨把一張入帳明細壓在兩張保單上。",
+      "金額只有一千元。她卻說，就是這一千元，讓她決定把更多的錢拿出來。",
+      {
+        "q": "這筆入帳，究竟證明了什麼？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問陳阿姨什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "旁白",
+        "t": "陳阿姨先拿出一張入帳明細，再把兩張保單推到你面前。明細上，一千元那一行被原子筆圈了兩次。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "陳阿姨",
+        "t": "這兩張如果解約，可以拿多少？我想把錢重新安排一下。",
+        "still": true
+      },
+      {
+        "who": "你",
+        "t": "我先幫您算一下能領多少，也跟您說明解約後哪些保障會受影響。這筆錢，您打算怎麼用呢？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "陳阿姨",
+        "t": "跟老師做股票。他說這一檔很穩，保證不會賠。",
+        "clue": "c1"
+      },
+      {
+        "who": "陳阿姨",
+        "t": "我上次放一萬，真的有領回一千。你看，這不是手機裡的數字，是真的入帳。",
+        "decoy": "d1"
+      },
+      {
+        "who": "你",
+        "t": "那這次的錢，要怎麼交給他們呢？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "陳阿姨",
+        "t": "等解約金入帳，我再去銀行領出來。他們有專員過來收，不用我自己操作。",
+        "clue": "c2"
+      },
+      {
+        "who": "陳阿姨",
+        "t": "助理還提醒我，銀行問就說裝潢，不要提投資。我家其實沒有要裝潢……他說這樣比較不麻煩。",
+        "clue": "c3"
+      },
+      {
+        "who": "旁白",
+        "t": "她把明細往你這邊移：「如果沒入帳，我也不會信啊。」說完，才打開助理傳來的收款時間表。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "陳阿姨",
+        "t": "我知道解約會影響保障，這部分你再幫我說明一下。",
+        "decoy": "d2"
+      }
+    ],
+    "labels": {
+      "c1": "保證獲利不賠",
+      "c2": "交付現金給陌生收款人",
+      "c3": "被教導隱瞞資金用途"
+    },
+    "explain": {
+      "c1": "<b>「保證賺、不會賠」需要提高警覺。</b>不能因為有老師帶，就省略查證投資內容。",
+      "c2": "<b>現金交給陌生專員是本案的具體警訊。</b>解約金先匯入本人帳戶，也不代表後續投資安全。",
+      "c3": "<b>有人教她用別的理由回答銀行。</b>重點不是保戶緊張，而是對方要求隱瞞真實用途。",
+      "d1": "<b>曾領回小額款項，不代表平台可信。</b>這句是判斷信任來源的背景；相較於保證獲利、現金面交與隱瞞用途，不能單憑小額入帳就認定真偽。",
+      "d2": "<b>了解保障影響是正常需求。</b>不能把願意承擔解約損失直接視為遭詐。"
+    },
+    "qs": [
+      {
+        "t": "「老師跟平台，您是怎麼找到的？有自己另外查過嗎？」",
+        "good": true,
+        "why": "確認資訊來源是否獨立，而不是要求原介紹人替自己背書。",
+        "key": "source",
+        "r": "「網路廣告認識的。連結、公司資料都是助理給的。我沒另外查，他說搜尋會找到假網站。」",
+        "drop": 0,
+        "id": "07-q0"
+      },
+      {
+        "t": "「這次的錢要交給誰？對方有給您能核對的帳戶或收款資料嗎？」",
+        "good": true,
+        "why": "把匯回本人帳戶與後續交付風險分開確認。",
+        "key": "pay",
+        "r": "「沒有公司帳號。助理說等錢入帳，再約專員來收。我沒見過他，也不知道是誰派來的。」",
+        "drop": 0,
+        "id": "07-q1"
+      },
+      {
+        "t": "「之前除了那一萬元，還有放別的錢嗎？現在如果想領回來，領得到嗎？」",
+        "good": true,
+        "why": "釐清既有投入、出金限制與追加付款要求，找出保戶真正擔心的事。",
+        "key": "prior",
+        "r": "她停了一下。「後來又加了錢，現在本金一共八萬。對方說要湊到二十萬才能申請領回，我是怕原來的錢拿不回來。」",
+        "drop": 0,
+        "id": "07-q2"
+      },
+      {
+        "t": "「這就是詐騙，您怎麼還想拿保單的錢去投？」",
+        "good": false,
+        "why": "先責備會使保戶收回資訊；即使察覺風險，仍需用能繼續對話的方式說明。",
+        "r": "她把手機收進包包。「我自己的事自己會看。你們如果不辦，我去別的地方問。」",
+        "drop": 2,
+        "id": "07-q3"
+      }
+    ],
+    "vs": [
+      {
+        "t": "先把解約的資料確認好，投資的事由她自行決定。",
+        "label": "僅處理申請",
+        "pts": 0,
+        "id": "07-a0"
+      },
+      {
+        "t": "先拿防詐文宣給她，請她自己對照這個平台。",
+        "label": "一般提醒",
+        "pts": 5,
+        "id": "07-a1"
+      },
+      {
+        "t": "先說明具體疑點，詢問她是否願意由主管一起協助查證。",
+        "label": "具體關懷",
+        "pts": 15,
+        "best": true,
+        "id": "07-a2"
+      }
+    ],
+    "truth": [
+      "那一千元確實進過陳阿姨的帳戶。她沒有看錯，也沒有說謊。",
+      "【虛構情境揭曉】這是對方安排的小額出金。她把「領得到一次」理解成「之後也領得回來」，於是願意把更多資金投入。",
+      "助理提供的不是單純的收款時間表，還有一套回答銀行問題的方法。對方需要她相信老師，也需要其他人不知道老師的存在。",
+      "那一千元能證明曾有款項入帳，不能證明對方真的買過股票，也不能保證之後能領回更多。它正是她願意再次投入的信任起點。"
+    ],
+    "sub": "保單解約｜一筆新的安排",
+    "tips": [
+      "入門重點：先找保證獲利、陌生人收現金、教導隱瞞三項線索。",
+      "解約金入帳後再提款，才是本案的後續安排；櫃台不承諾當天拿到解約金。",
+      "保戶曾有小額出金經驗時，先理解她為何相信，再說明具體風險。"
+    ],
+    "difficulty": "入門"
+  },
+  "08": {
+    "id": "08",
+    "title": "還沒寄到的禮物",
+    "soup": [
+      "李姐把手機裡的照片放大，是一只包裝仔細的禮物盒。",
+      "她還沒收到禮物，卻已經開始替寄件的人擔心。",
+      "「這次換我幫他一次。」她說。",
+      {
+        "q": "她想借的十五萬元，是為了收到包裹，還是為了不失去一個人？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問李姐什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "李姐",
+        "t": "我想借十五萬。是先幫朋友處理一下，錢到了就還。",
+        "still": true
+      },
+      {
+        "who": "你",
+        "t": "我先幫您看看能借多少，利息怎麼算也一起跟您說。您剛說的費用，是要付什麼呢？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "李姐",
+        "t": "他在國外，認識四個月了。我們還沒見面，但他每天都會問我有沒有吃飯，比很多見得到的人還細心。",
+        "decoy": "d1"
+      },
+      {
+        "who": "李姐",
+        "t": "他寄了禮物給我，還放了一些美金，說是以後來台灣用的。現在卡在海關，要先付十五萬才放行。",
+        "clue": "c1"
+      },
+      {
+        "who": "旁白",
+        "t": "她先翻出禮物盒的照片，再打開付款通知。照片拍得很仔細，通知上卻找不到可自行查詢的物流單號。",
+        "narr": true,
+        "clue": "c2"
+      },
+      {
+        "who": "你",
+        "t": "這張通知，是物流公司直接傳給您的，還是朋友轉給您的？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "李姐",
+        "t": "都是他轉給我的。帳戶是另一個人，他說是窗口。他還交代不要另外問物流，處理中的包裹會被弄亂。",
+        "clue": "c3"
+      },
+      {
+        "who": "李姐",
+        "t": "我有算過利息，等他把費用還我，就可以還借款。",
+        "decoy": "d2"
+      },
+      {
+        "who": "旁白",
+        "t": "她把手機轉回自己面前。新訊息寫著：「妳如果有困難就算了，我再想辦法。」她盯著那句話，沒有回覆。",
+        "narr": true,
+        "still": true
+      }
+    ],
+    "labels": {
+      "c1": "包裹含現金並要求先付大筆費用",
+      "c2": "無法獨立核對的包裹資訊",
+      "c3": "陌生個人帳戶收款且阻止查證"
+    },
+    "explain": {
+      "c1": "<b>海外包裹含現金、先付大筆費用，是需要查證的付款故事。</b>不能只憑交往對象的說法就付款。",
+      "c2": "<b>通知沒有可獨立核對的物流資訊。</b>先確認運送業者與單號，再循自行找到的官方管道核對。",
+      "c3": "<b>收款帳戶與物流身分不明，還阻止她自行查詢。</b>這些比對方住哪裡、做什麼工作更值得追問。",
+      "d1": "<b>網路認識或未見面，不足以單獨認定詐騙。</b>本案要和付款要求一起看。",
+      "d2": "<b>算過利息不代表還款來源可靠。</b>要確認「等他還錢」只是承諾，還是有其他可負擔安排。"
+    },
+    "qs": [
+      {
+        "t": "「他有給物流公司的名字和單號嗎？我們一起看一下。」",
+        "r": "她翻了翻手機。「都是照片和通知，沒有單號。我問過，他說現在還不能查……可是通知怎麼會先到了？」",
+        "key": "parcel",
+        "good": true,
+        "why": "確認運送資訊是否可獨立查核，不以照片取代寄件證據。",
+        "drop": 0,
+        "id": "08-q0"
+      },
+      {
+        "t": "「這個收款人的名字您認識嗎？為什麼不是匯給物流公司？」",
+        "r": "「不認識。他說是代辦窗口，我只問過他，沒另外找過物流公司。」",
+        "key": "pay",
+        "good": true,
+        "why": "核對費用及實際收款人，不只確認匯款是否可完成。",
+        "drop": 0,
+        "id": "08-q1"
+      },
+      {
+        "t": "「如果包裹沒那麼快放行，他暫時還不了錢，您自己還得過來嗎？」",
+        "r": "「可能還不出來。他說美金就在包裹裡，才十五萬，我幫他一下就能解決。」",
+        "key": "repay",
+        "good": true,
+        "why": "釐清還款來源及承諾落空時的壓力。",
+        "drop": 0,
+        "id": "08-q2"
+      },
+      {
+        "t": "「這個人就是騙子，您先封鎖他，其他不用再說了。」",
+        "r": "她把手機轉走。「你們根本沒聽我說。他每天陪我，不是只有要錢才出現。」",
+        "key": null,
+        "good": false,
+        "why": "直接否定關係與要求斷聯，容易使保戶不再提供付款資訊。",
+        "drop": 2,
+        "id": "08-q3"
+      }
+    ],
+    "vs": [
+      {
+        "t": "先確認借款額度與利息，包裹費用由她自己安排。",
+        "label": "僅核對借款條件",
+        "pts": 0,
+        "best": false,
+        "id": "08-a0"
+      },
+      {
+        "t": "請她再向朋友確認包裹，回覆清楚就接續申請。",
+        "label": "向原對象求證",
+        "pts": 5,
+        "best": false,
+        "id": "08-a1"
+      },
+      {
+        "t": "先核對包裹與收款資訊，協助從物流正式管道查證。",
+        "label": "獨立核對付款",
+        "pts": 15,
+        "best": true,
+        "id": "08-a2"
+      }
+    ],
+    "truth": [
+      "照片裡看得到一個禮物盒，卻沒有足以獨立核對的寄件資訊。包裝看似真實，不代表這次包裹確實存在。",
+      "【虛構情境揭曉】對方沒有寄出含現金的包裹；所謂清關通知與代辦窗口，都屬於同一場騙局。",
+      "他沒有直接說「匯錢給我」，而是把自己放在同樣著急的位置：他說不忍心禮物被退回，也說那是為兩人未來準備的錢。",
+      "她想維持的是一段被關心的關係，對方要求的卻是交付款項。查核包裹與費用，可以從付款事實切入，不必要求她先否定整段感情。"
+    ],
+    "sub": "保單借款｜海外來訊",
+    "tips": [
+      "入門重點：查包裹資訊、查收款人、查還款來源。",
+      "問付款事實，比要求保戶立刻承認受騙更容易取得資訊。",
+      "不因對方是網友就直接認定有問題，也不把封鎖對方當作申請條件。"
+    ],
+    "difficulty": "入門"
+  },
+  "09": {
+    "id": "09",
+    "title": "電話裡的另一個櫃台",
+    "sub": "保單服務｜一通尚未掛斷的電話",
+    "soup": [
+      "林阿姨原本只是來問受益人變更。輪到她時，手機裡的人卻說：先不要辦。",
+      "她抬頭問你：「你們兩邊怎麼說的不一樣？」",
+      {
+        "q": "那個比你更早開口的人，究竟代表誰？"
+      }
+    ],
+    "role": "<b>你的身分：</b>南山人壽服務據點櫃台同仁。從申請與對話中辨識遭詐風險，透過提問確認資訊，再選擇適當的關懷與查證處理。<br>你有 <b>兩張關心提問卡</b>，以及 <b>兩次處理判斷</b>的機會。",
+    "qTitle": "你想問林阿姨什麼？",
+    "vTitle": "依目前掌握的資訊，你決定……",
+    "lines": [
+      {
+        "who": "旁白",
+        "t": "林阿姨拿著舊保單，手機仍保持通話，對方聲音很小。",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "林阿姨",
+        "t": "我想問受益人怎麼改，資料還沒填。",
+        "decoy": "d1"
+      },
+      {
+        "who": "你",
+        "t": "可以，我先跟您說怎麼辦。您電話裡那位，也是在幫您處理保單的事嗎？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "林阿姨",
+        "t": "他說是你們的客服，知道我的名字，還說手機會員有異常。是他主動打給我的。",
+        "decoy": "d2"
+      },
+      {
+        "who": "林阿姨",
+        "t": "他叫我加他的私人 LINE，再從那裡的網址重新輸入保戶園地帳號和密碼。",
+        "clue": "c1"
+      },
+      {
+        "who": "旁白",
+        "t": "她主動把簡訊轉給你看，訊息寫著登入驗證用途。電話裡的人仍說：「把六位數念過來，我幫妳確認。」",
+        "narr": true,
+        "clue": "c2"
+      },
+      {
+        "who": "你",
+        "t": "阿姨，驗證碼先別念給他。我們先確認一下這通電話，好嗎？",
+        "you": true,
+        "still": true
+      },
+      {
+        "who": "林阿姨",
+        "t": "可是他說不能掛斷，也不要請現場同仁查，這是資訊部的專案，櫃台看不到。",
+        "clue": "c3"
+      },
+      {
+        "who": "旁白",
+        "t": "電話裡的人催她離開櫃台：「妳換個安靜的地方，我才聽得清楚。」",
+        "narr": true,
+        "still": true
+      },
+      {
+        "who": "林阿姨",
+        "t": "我本來只是想問改名字，怎麼現在連自己的手機都不敢碰了。",
+        "still": true
+      }
+    ],
+    "labels": {
+      "c1": "陌生來電引導私訊連結並索取帳密",
+      "c2": "要求口述登入驗證碼",
+      "c3": "阻止掛斷及向現場官方人員查證"
+    },
+    "explain": {
+      "c1": "<b>自稱客服，卻把操作帶到私人帳號與不明連結。</b>知道姓名不等於身分真實，已輸入帳密也要進一步處理。",
+      "c2": "<b>簡訊顯示的是登入驗證，對方卻要她口述。</b>應停止交付憑證，不能把驗證碼當一般案件編號。",
+      "c3": "<b>以專案保密為由阻止獨立查證。</b>應從公司正式管道確認，而非繼續由原來電者解釋自己。",
+      "d1": "<b>詢問受益人變更是正常服務需求。</b>本案不是受益人安排本身可疑。",
+      "d2": "<b>來電知道姓名只能作為背景。</b>不能單憑知道個資相信，也不能單憑來電就認定詐騙。"
+    },
+    "qs": [
+      {
+        "t": "「他打來前，您有先找客服反映會員的問題嗎？」",
+        "r": "「沒有。他知道我的名字，我就以為是例行通知。他的 LINE 也放公司圖案。」",
+        "key": "source",
+        "good": true,
+        "why": "區分主動申請與陌生來電，不以姓名或頭像認定身分。",
+        "drop": 0,
+        "id": "09-q0"
+      },
+      {
+        "t": "「連結裡填過哪些資料？驗證碼有沒有念過或傳過？不用告訴我內容。」",
+        "r": "「帳密已經填了，驗證碼還沒念。我以為是案件號碼，簡訊上卻寫登入。」",
+        "key": "exposed",
+        "good": true,
+        "why": "確認暴露範圍及憑證用途，不索取實際密碼或驗證碼。",
+        "drop": 0,
+        "id": "09-q1",
+        "rAfterCode": "「帳密先前已填，剛才那組碼也念出去了。現在他又要我等下一則，說還沒處理完。」"
+      },
+      {
+        "t": "「如果先掛電話查清楚，對方說會怎麼樣？」",
+        "r": "「他說會員會鎖住，理賠也查不到，還說櫃台不懂這個專案。我怕把自己的服務弄沒了。」",
+        "key": "control",
+        "good": true,
+        "why": "釐清恐懼和資訊控制，才能提出保戶接受的協助。",
+        "drop": 0,
+        "id": "09-q2"
+      },
+      {
+        "t": "「他知道姓名又有公司圖案，先讓他把這一步做完，我們再查？」",
+        "r": "她照著向電話裡的人念出驗證碼。「他說還要再確認一次，要我等下一則簡訊。」",
+        "key": null,
+        "good": false,
+        "why": "已知個資與圖像不是身分證明，繼續操作可能擴大暴露。",
+        "drop": 0,
+        "id": "09-q3",
+        "effects": {
+          "codeShared": true
+        }
+      },
+      {
+        "t": "「人都在櫃台了，還相信電話裡的人做什麼？先掛掉再說。」",
+        "r": "她縮回手機。「他也說自己是客服，我怎麼知道要聽誰？」",
+        "key": null,
+        "good": false,
+        "why": "責備保戶不能解決身分衝突，反而使她更難接受協助。",
+        "drop": 2,
+        "id": "09-q4"
+      }
+    ],
+    "vs": [
+      {
+        "t": "先說明變更表格，手機會員的事請她自行處理。",
+        "label": "略過正在發生的風險",
+        "pts": 0,
+        "best": false,
+        "id": "09-a0"
+      },
+      {
+        "t": "提醒驗證碼別念，再請她自己找客服處理手機。",
+        "label": "只提醒未交接",
+        "pts": 5,
+        "best": false,
+        "id": "09-a1"
+      },
+      {
+        "t": "先協助停止交付資料，循公司正式管道確認帳戶與來電。",
+        "label": "處理憑證與查證",
+        "pts": 15,
+        "best": true,
+        "id": "09-a2"
+      }
+    ],
+    "truth": [
+      "【虛構情境揭曉】來電者是假客服，並未參與任何受益人變更或會員異常處理。",
+      "對方透過姓名與公司圖案建立可信度，再以不明連結蒐集帳密、索取登入驗證碼。是否已發生異常操作，須由權責單位確認，不能只憑交付一組碼就推定所有保單交易均已完成。",
+      "「櫃台看不到這個專案」不是技術說明，而是讓她繼續只聽電話裡那個人的理由。",
+      "真正的受益人變更還沒開始，詐騙卻已開始。櫃台要辨識的是這段額外出現的操作。"
+    ],
+    "tips": [
+      "進階重點：防詐不只看資金交易，也要辨識帳密、驗證碼與不明連結的風險。",
+      "停止交付憑證後，還要處理已暴露的資料，不能只提醒下一次小心。",
+      "對方是否知道個資，不能取代正式身分查證。"
+    ],
+    "difficulty": "進階"
+  }
+};
+let cur = CASES["07"];
+const $ = id => document.getElementById(id);
+const CONTENT_VERSION = "2026-11-reviewed-v8";
+const NO_TRUST_PENALTY = {"07":[2],"08":[],"09":[3,4],"10":[3,4],"11":[3],"12":[3,4]};
+function renderHome(){
+  $("files").innerHTML = Object.values(CASES).sort((a,b) => Number(a.id) - Number(b.id)).map(c =>
+    `<button class="file" data-id="${c.id}"><span class="thumb portrait">${face(c.face)}</span><span><small>No.${caseNo(c.id)} · <span class="difficulty">${c.difficulty}</span></small><h3>${c.title}</h3><small>${c.sub}</small></span>${stLabel(c.id)}</button>`).join("");
+  $("files").querySelectorAll(".file").forEach(b => b.onclick = () => startCase(b.dataset.id));
+  renderStamps();
+}
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let marked, asked, trust, verdict, typing, skipFlag, runStart;
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); window.scrollTo(0,0);
+  if (id === "s-home" || id === "s-stats"){ inCase = false; stopAmb(); }
+  if (id === "s-home") renderHome();
+}
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+
+async function playSoup(){
+  const box = $("soup"); box.innerHTML = ""; $("afterSoup").hidden = true; $("skip").hidden = false;
+  skipFlag = false;
+  for (const item of cur.soup){
+    const text = typeof item === "string" ? item : item.q;
+    const p = document.createElement("p"); if (typeof item !== "string") p.className = "q";
+    box.appendChild(p);
+    if (reduce || skipFlag){ p.textContent = text; continue; }
+    const caret = document.createElement("span"); caret.className = "caret";
+    for (let i=0;i<text.length;i++){
+      if (skipFlag){ p.textContent = text; break; }
+      p.textContent = text.slice(0,i+1); p.appendChild(caret);
+      if (text[i] !== " ") SFX.key();
+      await sleep(70);
+    }
+    caret.remove();
+    if (!skipFlag) await sleep(500);
+  }
+  $("skip").hidden = true; $("afterSoup").hidden = false;
+}
+
+function renderScene(){
+  const box = $("script"); box.innerHTML = "";
+  cur.lines.forEach((l,idx)=>{
+    const fixed = l.you;
+    const el = document.createElement(fixed ? "div" : "button");
+    el.className = "line" + (l.narr ? " narr" : "") + (l.you ? " you" : "");
+    const av = (!l.narr && !l.you && cur.face) ? `<span class="av portrait">${face(cur.face)}</span>` : "";
+    el.innerHTML = `<span class="who">${av}${l.who}</span><span class="t">${l.t}</span>`;
+    if (l.sfx) el.dataset.sfx = l.sfx;
+    if (!fixed){
+      el.setAttribute("aria-pressed","false");
+      el.onclick = () => {
+        SFX.mark();
+        if (marked.has(idx)) marked.delete(idx);
+        else if (marked.size < 3) marked.add(idx);
+        el.classList.toggle("marked", marked.has(idx));
+        el.setAttribute("aria-pressed", marked.has(idx));
+        $("tally").textContent = `${marked.size} / 3`;
+        $("toQ").disabled = marked.size === 0;
+      };
+    }
+    box.appendChild(el);
+  });
+  $("tally").textContent = "0 / 3"; $("toQ").disabled = true;
+  if ("IntersectionObserver" in window){
+    let nextAt = performance.now() + 1700;
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; io.unobserve(e.target);
+      const k = e.target.dataset.sfx, delay = Math.max(0, nextAt - performance.now());
+      nextAt = performance.now() + delay + 1000;
+      setTimeout(() => { if ($("s-scene").classList.contains("on") && SFX[k]) SFX[k](); }, delay);
+    }), {threshold:.6});
+    box.querySelectorAll("[data-sfx]").forEach(el => io.observe(el));
+  }
+}
+
+function renderTrust(){
+  $("trust").innerHTML = "信任值 " + [0,1,2].map(i=>`<i class="${i<trust?"on":""}"></i>`).join("");
+}
+function renderQs(){
+  const box = $("qs"); box.innerHTML = "";
+  shuffledIndices(cur.qs).forEach(idx=>{
+    const q = cur.qs[idx];
+    const b = document.createElement("button"); b.className = "qcard"; b.dataset.qid = idx;
+    b.innerHTML = `<span>${q.t}</span><div class="reply">${q.r}</div>`;
+    b.onclick = () => {
+      if (asked.includes(idx) || asked.length >= 2) return;
+      asked.push(idx); b.classList.add("used");
+      if (!q.good){
+        if (!(NO_TRUST_PENALTY[cur.id] || []).includes(idx)) trust = Math.max(0, trust-1);
+        SFX.drop();
+      } else SFX.good();
+      renderTrust(); updateQ();
+    };
+    box.appendChild(b);
+  });
+  updateQ();
+}
+function updateQ(){
+  const left = 2 - asked.length;
+  $("qleft").innerHTML = left ? `剩下 <span class="left">${left}</span> 張提問卡` : "提問卡用完了。";
+  document.querySelectorAll(".qcard").forEach(b=>{
+    const idx = Number(b.dataset.qid);
+    if (!left && !asked.includes(idx)){ b.classList.add("spent"); b.disabled = true; }
+  });
+  $("toV").disabled = asked.length === 0;
+}
+
+function shuffledIndices(items){
+  const ids = items.map((_,i) => i);
+  for (let i=ids.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [ids[i],ids[j]]=[ids[j],ids[i]]; }
+  return ids;
+}
+
+function renderV(){
+  const box = $("vs"); box.innerHTML = "";
+  shuffledIndices(cur.vs).forEach(idx=>{
+    const v = cur.vs[idx];
+    const b = document.createElement("button"); b.className = "v"; b.textContent = v.t;
+    b.onclick = () => { SFX.mark(); verdict = idx; box.querySelectorAll(".v").forEach(x=>x.classList.remove("pick")); b.classList.add("pick"); $("toR").disabled = false; };
+    box.appendChild(b);
+  });
+  $("toR").disabled = true;
+}
+
+function reveal(){
+  const v = cur.vs[verdict];
+  $("tips").innerHTML = (cur.tips || []).map(t => `<li>${t}</li>`).join("");
+  $("sop").innerHTML = (CASE_SOP[cur.id] || []).map(([h,t]) => `<li><b>${h}</b>${t}</li>`).join("");
+  $("truthBody").innerHTML = cur.truth.map(t => `<p>${t}</p>`).join("");
+  $("ending").textContent = v.end;
+  let found = 0, wrong = 0; const notes = [];
+  marked.forEach(idx=>{ const l = cur.lines[idx]; if (l.clue) found++; else wrong++; });
+  ["c1","c2","c3"].forEach(k=>{
+    const hit = [...marked].some(i=>cur.lines[i].clue===k);
+    notes.push(`<li>${hit ? "✓ " : "✗ 漏掉："}${cur.explain[k]}</li>`);
+  });
+  [...marked].forEach(i=>{ if (cur.lines[i].decoy) notes.push(`<li>△ 線索辨別：${cur.explain[cur.lines[i].decoy]}</li>`); });
+  asked.forEach(i => { const q = cur.qs[i]; notes.push(`<li>提問回顧：${q.why}</li>`); });
+  $("notes").innerHTML = notes.join("");
+  $("scClue").textContent = `${found}/3`;
+  $("scTrust").textContent = `${trust}/3`;
+  $("scV").textContent = v.label;
+  let rank = "見習偵探";
+  if (v.best && found >= 2 && trust >= 2) rank = "首席偵探";
+  else if (v.best || found >= 2) rank = "資深偵探";
+  $("rank").textContent = rank;
+  awardStamp(cur.id, TIER_OF[rank] || 1);
+  if (runId){
+    const clues = {};
+    ["c1","c2","c3"].forEach(k => clues[k] = [...marked].some(i => cur.lines[i].clue === k));
+    saveRun({caseId:cur.id, start: runStart, done:true, end:Date.now(), clues, decoys:wrong, asked:[...asked],
+      badQ: asked.some(i => !cur.qs[i].good), trust, verdict, rank});
+    runId = null;
+  }
+  SFX.stamp();
+  show("s-r");
+}
+
+/* ===== GitHub 版：匿名紀錄送到 Google 試算表 ===== */
+// ↓↓↓ 把 Apps Script 部署後取得的網址貼在引號裡 ↓↓↓
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyAIt9sq0pOZGBLLiquTYOnCJ2_GVIBg3AeVsjck35D_e0HI3wnovtS9I9BTfza8ceZwA/exec";
+// ↑↑↑
+let db = null, uid = null, runId = null, unsub = null;
+function anonId(){
+  try {
+    let id = localStorage.getItem("afd-uid");
+    if (!id){
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("u" + Date.now().toString(36) + Math.random().toString(36).slice(2,10));
+      localStorage.setItem("afd-uid", id);
+    }
+    return id;
+  } catch(e){ return "anon"; }
+}
+uid = anonId();
+const QKEY = "afd-queue";
+function loadQ(){ try { return JSON.parse(localStorage.getItem(QKEY)) || []; } catch(e){ return []; } }
+function saveQ(q){ try { localStorage.setItem(QKEY, JSON.stringify(q.slice(-50))); } catch(e){} }
+function flushQueue(){
+  if (!/^https:\/\//.test(ENDPOINT)) return;
+  const q = loadQ(); if (!q.length) return;
+  saveQ([]);
+  q.forEach(row => {
+    fetch(ENDPOINT, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(row), keepalive:true})
+      .catch(() => { const r = loadQ(); r.push(row); saveQ(r); });
+  });
+}
+window.addEventListener("online", flushQueue);
+setTimeout(flushQueue, 1500);
+function saveRun(rec){
+  if (!runId || !cur) return;
+  const c = cur, f = (typeof FLOWS !== "undefined" && FLOWS[c.id]) || {};
+  const row = {
+    time: new Date().toISOString(), uid, runId, version: CONTENT_VERSION,
+    event: rec.done ? "完成" : "開始",
+    caseNo: "No." + caseNo(c.id), caseTitle: c.title
+  };
+  if (rec.done){
+    const sc = rec.scores || {}, cl = rec.clues || {};
+    const lab = k => (c.labels && c.labels[k]) || k;
+    const act = (f.actions && f.actions[rec.verdict]) || {};
+    const fol = (f.follow && f.follow[rec.refusal]) || {};
+    const mk = (rec.marked || []).filter(i => c.lines[i] && !c.lines[i].clue).map(i => String(c.lines[i].t).replace(/<[^>]+>/g,""));
+    Object.assign(row, {
+      seconds: rec.start && rec.end ? Math.round((rec.end - rec.start)/1000) : "",
+      total: sc.total ?? "", detect: sc.detect ?? "", talk: sc.talk ?? "", judge: sc.judge ?? "",
+      rank: rec.rank || "", trust: rec.trust ?? "",
+      clue1: lab("c1"), miss1: cl.c1 ? 0 : 1,
+      clue2: lab("c2"), miss2: cl.c2 ? 0 : 1,
+      clue3: lab("c3"), miss3: cl.c3 ? 0 : 1,
+      wrongMarks: mk.length, wrongMarkText: mk.join("｜"),
+      questions: (rec.questionIds || []).map(id => { const q = c.qs.find(x => x.id === id); return q ? String(q.t).replace(/<[^>]+>/g,"") : id; }).join("｜"),
+      badQuestion: rec.badQ ? 1 : 0,
+      action: (c.vs[rec.verdict] && String(c.vs[rec.verdict].t)) || "", actionBest: act.best ? 1 : 0,
+      followup: fol.t ? String(fol.t).replace(/<[^>]+>/g,"") : "", followupBest: fol.pts === 15 ? 1 : 0
+    });
+  }
+  const q = loadQ(); q.push(row); saveQ(q); flushQueue();
+}
+
+function startCase(id){
+  cur = CASES[id] || cur;
+  $("caseNo").textContent = "案件 No." + caseNo(cur.id) + " · " + cur.difficulty;
+  $("caseTitle").textContent = cur.title;
+  $("role").innerHTML = cur.role;
+  $("qTitle").textContent = cur.qTitle;
+  $("vTitle").textContent = cur.vTitle;
+  $("casePhoto").innerHTML = face(cur.face);
+  inCase = true; startAmb(); SFX.stamp();
+  marked = new Set(); asked = []; trust = 3; verdict = null;
+  runId = "r" + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  runStart = Date.now();
+  saveRun({start: runStart, done: false});
+  show("s-open"); playSoup();
+}
+
+/* ===== 人物立繪 ===== */
+const SKIN = "#E9C6A9", SHADE = "#D3A98B";
+const FACES = {
+  chenayi:{name:"陳阿姨", top:"#6E7F63",
+    hair:'<g fill="#C4C2CC"><circle cx="42" cy="47" r="9"/><circle cx="50" cy="39" r="10"/><circle cx="60" cy="36" r="10"/><circle cx="70" cy="39" r="10"/><circle cx="78" cy="47" r="9"/><circle cx="40" cy="57" r="7"/><circle cx="80" cy="57" r="7"/></g>',
+    collar:'<path d="M50 100 L60 116 L70 100 Z" fill="#EDE6DA"/>'},
+  li:{name:"李姐", top:"#2E4270",
+    back:'<path d="M35 62 C34 32 86 32 85 62 L87 90 L33 90 Z" fill="#3B2A24"/>',
+    hair:'<path d="M38 60 C39 37 81 35 82 60 C73 47 50 45 38 60 Z" fill="#3B2A24"/>',
+    collar:'<path d="M48 100 L60 124 L72 100 L66 100 L60 112 L54 100 Z" fill="#F2EEE8"/>',
+    mouth:'<path d="M55 76 q5 3 10 0 q-5 4 -10 0 Z" fill="#C2413B"/>',
+    extra:'<g fill="#F4EFE6"><circle cx="48" cy="103" r="1.8"/><circle cx="52" cy="105" r="1.8"/><circle cx="56" cy="106.5" r="1.8"/><circle cx="60" cy="107" r="1.8"/><circle cx="64" cy="106.5" r="1.8"/><circle cx="68" cy="105" r="1.8"/><circle cx="72" cy="103" r="1.8"/></g>'},
+  lin:{name:"林阿姨", top:"#9A6878",
+    back:'<circle cx="60" cy="31" r="10" fill="#4E4A52"/>',
+    hair:'<path d="M38 61 C37 34 83 34 82 61 C76 46 44 46 38 61 Z" fill="#4E4A52"/><path d="M47 44 C53 41 58 41 62 42" stroke="#A9A6AE" stroke-width="2" fill="none"/>',
+    collar:'<path d="M50 100 Q60 110 70 100 Z" fill="#E9DCE0"/>',
+    extra:'<g stroke="#7A5A3A" stroke-width="1.8" fill="none"><circle cx="52" cy="64" r="6.5"/><circle cx="68" cy="64" r="6.5"/><path d="M58.5 64 h3"/></g>'},
+  chenjie:{name:"陳姐", top:"#8796AE",
+    hair:'<path d="M37 60 C36 30 84 30 83 60 Z" fill="#C98E8A"/><rect x="36" y="54" width="48" height="8" rx="3" fill="#B87B78"/><g stroke="#B87B78" stroke-width="1.4"><path d="M48 38 v14"/><path d="M56 35 v17"/><path d="M64 35 v17"/><path d="M72 38 v14"/></g>',
+    collar:'<rect x="49" y="90" width="22" height="12" rx="3" fill="#7A89A2"/>',
+    mouth:'<path d="M55 77 q5 2 10 0" stroke="#8A4A44" stroke-width="2" fill="none" stroke-linecap="round"/>'},
+  ye:{name:"葉先生", top:"#A9773E",
+    hair:'<path d="M39 60 q-2 -12 6 -17 l1 15 Z M81 60 q2 -12 -6 -17 l-1 15 Z" fill="#9C9AA2"/><ellipse cx="54" cy="44" rx="6" ry="2.6" fill="#fff" opacity=".35"/>',
+    collar:'<path d="M48 100 L56 111 L60 102 L64 111 L72 100 Z" fill="#C08A4E"/>',
+    mouth:'<path d="M54 76 q7 4 12 -2" stroke="#8A4A44" stroke-width="2" fill="none" stroke-linecap="round"/>',
+    extra:'<g stroke="#2A2A30" stroke-width="2" fill="none"><rect x="45" y="59.5" width="13" height="9" rx="2"/><rect x="62" y="59.5" width="13" height="9" rx="2"/><path d="M58 63 h4"/></g>'},
+  wang:{name:"王先生", top:"#4A5568",
+    hair:'<path d="M38 60 C35 33 85 31 82 60 C80 50 72 44 60 44 C48 44 40 50 38 60 Z" fill="#1E1E26"/>',
+    collar:'<path d="M51 100 L60 114 L69 100 Z" fill="#EEF0F4"/>',
+    mouth:'<path d="M55 77 h10" stroke="#8A4A44" stroke-width="2" stroke-linecap="round"/>',
+    extra:'<g stroke="#B58C74" stroke-width="1.2" fill="none"><path d="M48 68 q4 2 8 0"/><path d="M64 68 q4 2 8 0"/></g>'}
+};
+function face(k){
+  const F = FACES[k]; if (!F) return "";
+  return `<svg viewBox="0 0 120 140" role="img" aria-label="${F.name}">
+  <rect width="120" height="140" fill="#14294A"/><circle cx="16" cy="8" r="72" fill="#F2C744" opacity=".15"/>
+  ${F.back || ""}
+  <path d="M12 140 C16 110 38 100 60 100 C82 100 104 110 108 140 Z" fill="${F.top}"/>
+  ${F.collar || ""}
+  <rect x="52" y="82" width="16" height="19" fill="${SHADE}"/>
+  <ellipse cx="39.5" cy="66" rx="3.5" ry="6" fill="${SKIN}"/><ellipse cx="80.5" cy="66" rx="3.5" ry="6" fill="${SKIN}"/>
+  <ellipse cx="60" cy="62" rx="21" ry="25" fill="${SKIN}"/>
+  ${F.hair || ""}
+  <g stroke="#5A4A44" stroke-width="2" fill="none" stroke-linecap="round"><path d="M47 57 q5 -2 9 0"/><path d="M64 57 q5 -2 9 0"/></g>
+  <circle cx="52" cy="64" r="2.2" fill="#2A2230"/><circle cx="68" cy="64" r="2.2" fill="#2A2230"/>
+  ${F.mouth || '<path d="M54 76 q6 4 12 0" stroke="#8A4A44" stroke-width="2" fill="none" stroke-linecap="round"/>'}
+  ${F.extra || ""}
+  <path d="M79 46 Q85 62 78 82" stroke="#F2C744" stroke-width="2" opacity=".5" fill="none"/>
+  </svg>`;
+}
+const CASE_FACE = {"07":"chenayi","08":"li","09":"lin","10":"chenjie","11":"ye","12":"wang"};
+Object.keys(CASE_FACE).forEach(id => { if (CASES[id]) CASES[id].face = CASE_FACE[id]; });
+[["07",4,"buzz"],["09",5,"buzz"],["10",3,"buzz"],["10",7,"buzz"],["12",1,"stat"],["12",7,"stat"]]
+  .forEach(([id,i,k]) => { if (CASES[id] && CASES[id].lines[i]) CASES[id].lines[i].sfx = k; });
+
+/* ===== 音效（Web Audio 合成，無外部檔案） ===== */
+let AC = null, NB = null, amb = null, sfxOn = true, inCase = false;
+function ac(){
+  if (!sfxOn) return null;
+  if (!AC){
+    const C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
+    AC = new C();
+    NB = AC.createBuffer(1, AC.sampleRate, AC.sampleRate);
+    const d = NB.getChannelData(0); for (let i=0;i<d.length;i++) d[i] = Math.random()*2-1;
+  }
+  if (AC.state === "suspended") AC.resume();
+  return AC;
+}
+function env(g,t0,peak,dur){ g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(peak,t0+.012); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); }
+function tone(f,d,dur,type,peak){ const a=ac(); if(!a) return; const t0=a.currentTime+d; const o=a.createOscillator(), g=a.createGain(); o.type=type||"sine"; o.frequency.value=f; env(g,t0,peak||.12,dur); o.connect(g); g.connect(a.destination); o.start(t0); o.stop(t0+dur+.05); }
+function noise(d,dur,peak,ft,fq){ const a=ac(); if(!a) return; const t0=a.currentTime+d; const s=a.createBufferSource(); s.buffer=NB; const f=a.createBiquadFilter(); f.type=ft; f.frequency.value=fq; const g=a.createGain(); env(g,t0,peak,dur); s.connect(f); f.connect(g); g.connect(a.destination); s.start(t0); s.stop(t0+dur+.05); }
+const SFX = {
+  key(){ noise(0,.03,.04,"highpass",2500); },
+  chime(){ tone(988,0,1.3,"sine",.14); tone(784,.5,1.6,"sine",.14); },
+  buzz(){ for (let i=0;i<3;i++){ tone(130,i*.32,.2,"square",.03); tone(190,i*.32,.2,"triangle",.05); } },
+  stat(){ noise(0,.7,.07,"bandpass",2200); },
+  mark(){ tone(1500,0,.07,"triangle",.05); },
+  good(){ tone(660,0,.3,"sine",.07); tone(990,.12,.35,"sine",.06); },
+  drop(){ tone(196,0,.6,"sine",.16); tone(147,.12,.8,"sine",.14); },
+  stamp(){ noise(0,.14,.4,"lowpass",500); tone(70,0,.3,"sine",.35); }
+};
+function startAmb(){
+  const a = ac(); if (!a || amb) return;
+  const s = a.createBufferSource(); s.buffer = NB; s.loop = true;
+  const f = a.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 260;
+  const g = a.createGain(); g.gain.setValueAtTime(.0001, a.currentTime); g.gain.exponentialRampToValueAtTime(.05, a.currentTime+1.5);
+  s.connect(f); f.connect(g); g.connect(a.destination); s.start(); amb = {s,g};
+}
+function stopAmb(){
+  if (!amb || !AC) return; const {s,g} = amb; amb = null; const t = AC.currentTime;
+  g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(g.gain.value,.0001), t); g.gain.exponentialRampToValueAtTime(.0001, t+.6); s.stop(t+.7);
+}
+$("sfxBtn").onclick = () => {
+  sfxOn = !sfxOn;
+  $("sfxBtn").textContent = sfxOn ? "音效：開" : "音效：關";
+  $("sfxBtn").setAttribute("aria-pressed", sfxOn);
+  if (!sfxOn) stopAmb(); else if (inCase) startAmb();
+};
+
+/* ===== 破案印章（存在本機瀏覽器） ===== */
+const TIER = {1:{name:"銅章",color:"#B87333"},2:{name:"銀章",color:"#8E9AAB"},3:{name:"金章",color:"#D9A520"}};
+const TIER_OF = {"見習偵探":1,"資深偵探":2,"首席偵探":3};
+const SKEY = "afd-stamps-reviewed-v8";
+function loadStamps(){ try { return JSON.parse(localStorage.getItem(SKEY)) || {}; } catch(e){ return {}; } }
+function saveStamps(s){ try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch(e){} }
+function caseNo(id){ return String(Number(id) - 6).padStart(2, "0"); }
+function stampSVG(id, tier){
+  const c = TIER[tier].color;
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(-10 50 50)">
+  <circle cx="50" cy="50" r="44" fill="none" stroke="${c}" stroke-width="4"/>
+  <circle cx="50" cy="50" r="36" fill="none" stroke="${c}" stroke-width="1.5"/>
+  <path d="M50 19 l2.6 5.4 5.9 .8 -4.3 4.1 1 5.9 -5.2 -2.8 -5.2 2.8 1 -5.9 -4.3 -4.1 5.9 -.8z" fill="${c}"/>
+  <text x="50" y="60" text-anchor="middle" font-family="Noto Serif TC, serif" font-weight="900" font-size="21" fill="${c}">破案</text>
+  <text x="50" y="76" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-weight="700" font-size="10" letter-spacing="1" fill="${c}">No.${caseNo(id)}</text>
+  </g></svg>`;
+}
+function stLabel(id){
+  const t = loadStamps()[id];
+  return t ? `<span class="st t${t}">${TIER[t].name}</span>` : `<span class="st">接案</span>`;
+}
+function renderStamps(){
+  const s = loadStamps(), ids = Object.keys(CASES).sort((a,b) => Number(a) - Number(b));
+  $("slots").innerHTML = ids.map(id => s[id]
+    ? `<div class="slot got" title="No.${caseNo(id)} ${TIER[s[id]].name}">${stampSVG(id, s[id])}</div>`
+    : `<div class="slot">No.${caseNo(id)}</div>`).join("");
+  const n = ids.filter(id => s[id]).length, gold = ids.filter(id => s[id] === 3).length;
+  $("scCount").textContent = gold === ids.length ? "全案制霸" : `已破 ${n} / ${ids.length} 案`;
+}
+function awardStamp(id, tier){
+  const s = loadStamps(), prev = s[id] || 0, best = Math.max(prev, tier);
+  s[id] = best; saveStamps(s);
+  let title, sub;
+  if (!prev){ title = `獲得${TIER[tier].name}`; sub = `No.${caseNo(id)} 已收入偵探集章卡`; }
+  else if (tier > prev){ title = `印章升級：${TIER[prev].name} → ${TIER[tier].name}`; sub = "重新調查，表現更好了"; }
+  else { title = `已擁有${TIER[best].name}`; sub = best < 3 ? "拿到更高評級，印章就會升級" : "這案已經拿到最高評級"; }
+  const fresh = !prev || tier > prev;
+  $("earned").innerHTML = `<div class="big${fresh ? " new" : ""}">${stampSVG(id, best)}</div><p>${title}<small>${sub}</small></p>`;
+}
+const CASE_SOP = {
+  "07": [
+    [
+      "確認交易與保障影響",
+      "依解約作業核對資格及必要資料，說明解約金與保障影響；不承諾當日給付或現金交付。"
+    ],
+    [
+      "補足智慧關懷資訊",
+      "釐清用途、既有投入、追加要求與後續交付方式，客觀記錄保戶原話。"
+    ],
+    [
+      "AI 黃金眼輔助評估",
+      "依解約關懷作業使用智慧關懷表與 AI 黃金眼風險資訊，結合保戶陳述評估，按權責接續關懷與查證。"
+    ],
+    [
+      "主管協同與查證",
+      "依實際評估及內部權責請主管接續；是否聯繫165、警方或其他單位，依正式條件辦理，不預設每案均須報警。"
+    ],
+    [
+      "記錄與交接",
+      "記錄疑點、保戶說明、查證與處理結果。聯繫家屬或保單安心聯絡人須確認適用資格、同意或其他合法依據及授權範圍；不得自行停辦或逾權限制申請。"
+    ]
+  ],
+  "08": [
+    [
+      "確認借款與還款資訊",
+      "依保單借款規定說明額度、利息及影響；詢問款項用途與還款來源，不以對方國籍或職業推定遭詐。"
+    ],
+    [
+      "確認付款要求",
+      "釐清費用名目、收款人、是否曾付款及查證經過，記錄必要資訊，不抄錄與案件無關的完整私訊。"
+    ],
+    [
+      "依適用流程評估",
+      "在公司確認適用的借款流程中，依智慧關懷表及 AI 黃金眼正式操作規範處理，由同仁結合具體事實判讀。"
+    ],
+    [
+      "主管協同與獨立查證",
+      "由主管依權責協助；避免只向原付款窗口求證。對外諮詢或通報依公司正式條件與資訊提供規範辦理。"
+    ],
+    [
+      "尊重選擇並留存紀錄",
+      "記錄保戶接受或婉拒的協助、後續聯繫方式及處理結果。案件是否續辦、暫緩或移交，依適用規定與權責決定。"
+    ]
+  ],
+  "09": [
+    [
+      "辨識冒名操作",
+      "了解來電與私訊來源，確認有無不明連結、索取帳密或驗證碼等具體行為。"
+    ],
+    [
+      "先避免風險擴大",
+      "向保戶說明不要再輸入、轉傳或口述憑證；同仁不代收驗證碼、不代操作不明連結。"
+    ],
+    [
+      "確認已暴露資訊",
+      "只詢問必要範圍：已提供哪些資料、是否收到異常通知；紀錄中不抄錄密碼或驗證碼。"
+    ],
+    [
+      "正式管道協同",
+      "請主管依權責聯繫帳戶安全或適當單位，循公司正式服務管道確認及處理，不回撥可疑訊息所附號碼。"
+    ],
+    [
+      "記錄與服務接續",
+      "記錄事實、已採措施及後續交接；原本的受益人變更諮詢另依規定提供服務，不自行保證帳戶安全或斷言損失。"
+    ]
+  ],
+  "10": [
+    [
+      "如實回覆理賠進度",
+      "依權限查詢並說明目前狀態；給付資格、金額、帳戶及時間由正式審核決定，不預先保證入帳。"
+    ],
+    [
+      "釐清投資安排",
+      "確認平台資訊、收款戶名及資金用途；了解必要支出，不要求保戶提供與本次服務無關的病歷或完整私訊。"
+    ],
+    [
+      "依理賠服務權責移交",
+      "將疑似遭詐的具體資訊交主管及適當權責單位接續，理賠案件仍按原有審核與服務程序處理。"
+    ],
+    [
+      "協助查證與關懷",
+      "依適用程序協助獨立查證；聯繫家屬、安心聯絡人或外部單位前確認資格、授權與資訊提供依據。"
+    ],
+    [
+      "審核與風險處理各依程序",
+      "記錄關懷與交接結果；櫃台不得以保戶尚未放棄投資為由自行扣留、凍結或承諾延後合法給付。"
+    ]
+  ],
+  "11": [
+    [
+      "釐清真實用途",
+      "關心解約後的資金流向、所謂監管或保全要求，以及是否被指示隱瞞。"
+    ],
+    [
+      "依解約關懷流程評估",
+      "依解約關懷作業處理智慧關懷表與 AI 黃金眼資訊，記錄具體陳述，按風險資訊與權責接續處理。"
+    ],
+    [
+      "降低恐懼並請主管協助",
+      "先理解保戶擔心拘提或不配合的壓力，由主管依權責接續，不要求保戶先承認受騙。"
+    ],
+    [
+      "使用獨立管道查證",
+      "機關名稱、文件、電話轉接與對方提供的回撥號碼不能互相證明；外部諮詢或通報依正式流程。"
+    ],
+    [
+      "記錄與後續處理",
+      "留存必要事實與查證結果，申請續辦或其他處理依權責決定，不自行承諾當日給付或限制申請。"
+    ]
+  ],
+  "12": [
+    [
+      "分開看原事件與新要求",
+      "釐清誰受害、誰借款、誰要求新付款；報案證明不等於替追款者背書。"
+    ],
+    [
+      "問清資訊及資金來源",
+      "記錄追款者如何取得受害資料、收費名目、收款安排及借款還款來源，不蒐集不必要的敏感資料。"
+    ],
+    [
+      "依借款關懷流程評估",
+      "依公司適用規範處理智慧關懷表與 AI 黃金眼資訊，由主管依權責協助。"
+    ],
+    [
+      "循獨立管道確認",
+      "協助保戶依程序向原報案單位或其他正式管道確認，不依追款者的網站、保證書或截圖自我驗證。"
+    ],
+    [
+      "記錄並清楚交接",
+      "記錄查證、關懷及後續安排，不保證追回原損失，也不把放棄追款作為擅自新增的借款條件。"
+    ]
+  ]
+};
+renderHome();
+$("skip").onclick = () => { skipFlag = true; };
+$("enter").onclick = () => { SFX.chime(); renderScene(); show("s-scene"); };
+$("toQ").onclick = () => { renderTrust(); renderQs(); show("s-q"); };
+$("toV").onclick = () => { renderV(); show("s-v"); };
+$("toR").onclick = reveal;
+$("again").onclick = () => startCase(cur.id);
+$("home").onclick = () => show("s-home");
+
+const pct = (n,d) => d ? Math.round(n/d*100) + "%" : "—";
+const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+function bar(label, n, d, warn){
+  const w = d ? (n/d*100) : 0;
+  return `<div class="bar${warn ? " warn" : ""}"><span>${label}</span><div class="tr"><div class="fi" style="width:${w}%"></div></div><b>${pct(n,d)}</b></div>`;
+}
+// 能力分數：辨識40＋溝通30＋判斷30＝100
+function scoreOf(r){
+  const c = r.clues || {};
+  const found = ["c1","c2","c3"].filter(k => c[k]).length;
+  const detect = found*12 + (found > 0 && !r.decoys ? 4 : 0);
+  const cq = (CASES[r.caseId] || CASES["07"]).qs;
+  const good = (r.asked || []).filter(i => cq[i] && cq[i].good).length;
+  const talk = Math.round((r.trust ?? 0)/3*20) + good*5;
+  const cv = (CASES[r.caseId] || CASES["07"]).vs;
+  const judge = (cv[r.verdict] && cv[r.verdict].pts) || 0;
+  return {detect, talk, judge, total: detect + talk + judge};
+}
+function renderStats(players){
+  // players: [{runs:[...done runs sorted by start]}]
+  const trained = players.filter(p => p.runs.length >= 1);
+  const pairs = players.filter(p => p.runs.length >= 2).map(p => ({pre: scoreOf(p.runs[0]), post: scoreOf(p.runs[p.runs.length-1])}));
+  $("kPeople").textContent = trained.length;
+  const gains = pairs.map(x => x.post.total - x.pre.total);
+  $("kGain").textContent = pairs.length ? (avg(gains) >= 0 ? "+" : "") + Math.round(avg(gains)) + " 分" : "—";
+  $("kUp").textContent = pct(gains.filter(g => g > 0).length, pairs.length);
+  $("ppPre").textContent = pairs.length ? Math.round(avg(pairs.map(x => x.pre.total))) : "—";
+  $("ppPost").textContent = pairs.length ? Math.round(avg(pairs.map(x => x.post.total))) : "—";
+
+  const D = [["detect","線索辨識",40],["talk","溝通提問",30],["judge","處理判斷",30]];
+  const row = (cls, v, max) => `<div class="r ${cls}"><div class="tr"><div class="fi" style="width:${pairs.length ? v/max*100 : 0}%"></div></div><b>${pairs.length ? v.toFixed(1) + "/" + max : "—"}</b></div>`;
+  $("dims").innerHTML = D.map(([k,label,max]) => {
+    const pre = avg(pairs.map(x => x.pre[k])), post = avg(pairs.map(x => x.post[k]));
+    return `<div class="dim"><span>${label}</span><div class="rows">${row("pre",pre,max)}${row("post",post,max)}</div></div>`;
+  }).join("") + `<div class="legend"><span><i style="background:var(--muted)"></i>首次</span><span><i style="background:var(--lamp)"></i>最近</span></div>`;
+
+  const list = players.filter(p => p.runs.length >= 2).map((p,idx) => {
+    const a = scoreOf(p.runs[0]).total, b = scoreOf(p.runs[p.runs.length-1]).total;
+    return {name: p.name, a, b, d: b - a};
+  }).sort((x,y) => y.d - x.d);
+  const onlyPre = trained.length - list.length;
+  if ($("people")) $("people").innerHTML = (list.length ? list.map(x =>
+    `<div class="person"><span>${x.name}</span><span class="sc">${x.a} → ${x.b}</span><span class="d ${x.d>0?"up":x.d<0?"down":""}">${x.d>0?"+":""}${x.d}</span></div>`).join("")
+    : `<p>還沒有人完成兩次以上。</p>`) + (onlyPre > 0 ? `<p>另有 ${onlyPre} 人僅完成一次案件。</p>` : "");
+
+  const posts = players.filter(p => p.runs.length >= 2).map(p => p.runs[p.runs.length-1]);
+  const miss = [];
+  Object.values(CASES).forEach(c => {
+    const ps = posts.filter(r => (r.caseId || "07") === c.id);
+    if (ps.length) ["c1","c2","c3"].forEach(k => miss.push({label: c.labels[k], n: ps.filter(r => !(r.clues && r.clues[k])).length, d: ps.length}));
+  });
+  if ($("weak")) $("weak").innerHTML = miss.sort((x,y) => y.n/y.d - x.n/x.d).slice(0,4).map(x => bar("漏掉：" + x.label, x.n, x.d, true)).join("")
+    + bar("提問仍未釐清風險", posts.filter(r => r.badQ).length, posts.length, true)
+    + bar("仍未做出最佳處理", posts.filter(r => { const v = (CASES[r.caseId] || CASES["07"]).vs[r.verdict]; return !(v && v.best); }).length, posts.length, true);
+
+  $("stNote").textContent = trained.length ? `${trained.length} 人完成練習，其中 ${pairs.length} 人完成兩次以上案件，即時更新中` : "還沒有人完成案件";
+}
+/* ===== 案件分析 ===== */
+let aCase = null, aRuns = [];
+const short = (t, n) => { const s = String(t).replace(/<[^>]+>/g, ""); return s.length > n ? s.slice(0, n) + "…" : s; };
+function abar(label, n, d, kind, tag){
+  const w = d ? n/d*100 : 0;
+  return `<div class="arow ${kind || ""}"><div class="al"><span>${label}${tag ? `<span class="tagb">${tag}</span>` : ""}</span><b>${n} 人次（${pct(n,d)}）</b></div><div class="tr"><div class="fi" style="width:${w}%"></div></div></div>`;
+}
+function renderAnalysis(runs){
+  aRuns = runs;
+  const ids = Object.keys(CASES).sort((a,b) => Number(a) - Number(b));
+  if (!aCase) aCase = ids[0];
+  $("aTabs").innerHTML = ids.map(id => `<button class="atab${id === aCase ? " on" : ""}" data-id="${id}">No.${caseNo(id)}</button>`).join("");
+  $("aTabs").querySelectorAll(".atab").forEach(b => b.onclick = () => { aCase = b.dataset.id; renderAnalysis(aRuns); });
+  const c = CASES[aCase], f = FLOWS[aCase] || {follow:[]};
+  const rs = runs.filter(r => r.caseId === aCase), n = rs.length;
+  if (!n){ $("aBody").innerHTML = `<div class="acase"><h4>${c.title}</h4><p class="muted">還沒有人完成這個案件。</p></div>`; return; }
+
+  const totals = rs.map(r => scoreOf(r).total);
+  const top = rs.filter(r => r.rank === "首席偵探").length;
+
+  const clues = ["c1","c2","c3"].map(k => ({label: (c.labels && c.labels[k]) || k, n: rs.filter(r => !(r.clues && r.clues[k])).length})).sort((a,b) => b.n - a.n);
+
+  const withMarks = rs.filter(r => Array.isArray(r.marked));
+  const mis = c.lines.map((l,i) => ({l, i})).filter(x => !x.l.you && !x.l.clue)
+    .map(x => ({label: short(x.l.t, 30), decoy: !!x.l.decoy, n: withMarks.filter(r => r.marked.includes(x.i)).length}))
+    .filter(x => x.n > 0).sort((a,b) => b.n - a.n).slice(0, 4);
+
+  const qs = c.qs.map(q => ({label: short(q.t, 34), good: !!q.good, n: rs.filter(r => (r.questionIds || []).includes(q.id)).length})).sort((a,b) => b.n - a.n);
+  const acts = c.vs.map(v => ({label: short(v.t, 34), best: !!v.best, n: rs.filter(r => r.actionId === v.id).length})).sort((a,b) => b.n - a.n);
+  const fols = (f.follow || []).map(o => ({label: short(o.t, 34), best: o.pts === 15, n: rs.filter(r => r.followupId === o.id).length})).sort((a,b) => b.n - a.n);
+
+  const tips = [];
+  if (clues[0].n) tips.push(`最多人漏掉的警訊：「${clues[0].label}」（${clues[0].n} 人次，${pct(clues[0].n, n)}）`);
+  const wrongAct = acts.filter(a => !a.best && a.n)[0];
+  if (wrongAct) tips.push(`最常選錯的處理方式：${wrongAct.label}（${wrongAct.n} 人次，${pct(wrongAct.n, n)}）`);
+  const badQ = qs.filter(q => !q.good && q.n)[0];
+  if (badQ) tips.push(`最常使用的不當問法：${badQ.label}（${badQ.n} 人次，${pct(badQ.n, n)}）`);
+  const wrongFol = fols.filter(o => !o.best && o.n)[0];
+  if (wrongFol) tips.push(`被拒絕後最常見的錯誤應對：${wrongFol.label}（${wrongFol.n} 人次，${pct(wrongFol.n, n)}）`);
+  if (mis[0]) tips.push(`最常被誤判為警訊的句子：「${mis[0].label}」（${mis[0].n} 人次，${pct(mis[0].n, withMarks.length)}）`);
+
+  $("aBody").innerHTML = `<div class="acase">
+    <h4>${c.title}</h4>
+    <div class="amini"><div><b>${n}</b><span>完成人次</span></div><div><b>${Math.round(avg(totals))}</b><span>平均分數</span></div><div><b>${pct(top, n)}</b><span>首席偵探</span></div></div>
+    <div class="insight"><b>訓練建議</b><ul>${tips.length ? tips.map(t => `<li>${t}</li>`).join("") : "<li>目前沒有明顯的弱點。</li>"}</ul></div>
+    <h4>漏掉警訊的比例</h4>${clues.map(x => abar(x.label, x.n, n, "bad")).join("")}
+    <h4>最常被誤判的句子</h4>${mis.length ? mis.map(x => abar(x.label, x.n, withMarks.length, "bad", x.decoy ? "誘餌" : "背景")).join("") : `<p class="muted small">尚無誤判紀錄。</p>`}
+    <h4>提問選擇</h4>${qs.map(x => abar(x.label, x.n, n, x.good ? "good" : "bad", x.good ? "好問法" : "不當問法")).join("")}
+    <h4>第一次處理判斷</h4>${acts.map(x => abar(x.label, x.n, n, x.best ? "good" : "bad", x.best ? "最佳" : "")).join("")}
+    <h4>被拒絕後的應對</h4>${fols.map(x => abar(x.label, x.n, n, x.best ? "good" : "bad", x.best ? "最佳" : "")).join("")}
+  </div>`;
+}
+function openStats(){
+  show("s-stats");
+  if (!db){ $("stNote").textContent = "目前無法連線到資料庫，請在已發布的頁面登入後使用。"; return; }
+  if (!unsub){
+    unsub = db.collection("plays").limit(1000).onSnapshot(
+      snap => {
+        const players = snap.docs.map((d,i) => ({
+          name: "玩家 " + String(i+1).padStart(2,"0"),
+          runs: Object.values(d.data() || {}).filter(r => r && r.done && r.contentVersion === CONTENT_VERSION).sort((a,b) => a.start - b.start)
+        }));
+        renderStats(players);
+        renderAnalysis(players.flatMap(p => p.runs));
+      },
+      () => { $("stNote").textContent = "讀取數據時發生問題，請稍後再試。"; }
+    );
+  }
+}
+$("statsBtn").onclick = openStats;
+$("statsBtn2").onclick = openStats;
+$("statsHome").onclick = () => show("s-home");
+const FLOWS = {
+  "07": {
+    "facts": {
+      "source": {
+        "text": "平台連結與老師資訊都來自同一位助理，尚無獨立查證。",
+        "did": "你問清了平台資訊的來源，發現尚未有獨立查證。",
+        "need": "平台及介紹者的資訊來源",
+        "next": "「這個平台，我們能不能從它以外的正式管道查一下？先不找原本的助理。」"
+      },
+      "pay": {
+        "text": "沒有可核對的收款帳戶，準備交現金給未見過的專員。",
+        "did": "你問清了收款安排，發現對方沒有提供可核對的收款資料。",
+        "need": "收款人身分與交付安排",
+        "next": "「這位收款的人，您見過嗎？有沒有能自己核對的公司資料？」"
+      },
+      "prior": {
+        "text": "保戶表示目前投入的本金共八萬元；對方要求累計投入二十萬元才可申請出金。",
+        "did": "你問清了既有投入及出金條件，發現對方以追加款項作為出金前提。",
+        "need": "既有投入及出金條件",
+        "next": "「現在已經放進去的錢，如果不再加碼，能不能先領回來？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「老師跟平台，您是怎麼找到的？有自己另外查過嗎？」",
+        "good": true,
+        "why": "確認資訊來源是否獨立，而不是要求原介紹人替自己背書。",
+        "key": "source",
+        "r": "「網路廣告認識的。連結、公司資料都是助理給的。我沒另外查，他說搜尋會找到假網站。」",
+        "drop": 0,
+        "id": "07-q0"
+      },
+      {
+        "t": "「這次的錢要交給誰？對方有給您能核對的帳戶或收款資料嗎？」",
+        "good": true,
+        "why": "把匯回本人帳戶與後續交付風險分開確認。",
+        "key": "pay",
+        "r": "「沒有公司帳號。助理說等錢入帳，再約專員來收。我沒見過他，也不知道是誰派來的。」",
+        "drop": 0,
+        "id": "07-q1"
+      },
+      {
+        "t": "「之前除了那一萬元，還有放別的錢嗎？現在如果想領回來，領得到嗎？」",
+        "good": true,
+        "why": "釐清既有投入、出金限制與追加付款要求，找出保戶真正擔心的事。",
+        "key": "prior",
+        "r": "她停了一下。「後來又加了錢，現在本金一共八萬。對方說要湊到二十萬才能申請領回，我是怕原來的錢拿不回來。」",
+        "drop": 0,
+        "id": "07-q2"
+      },
+      {
+        "t": "「這就是詐騙，您怎麼還想拿保單的錢去投？」",
+        "good": false,
+        "why": "先責備會使保戶收回資訊；即使察覺風險，仍需用能繼續對話的方式說明。",
+        "r": "她把手機收進包包。「我自己的事自己會看。你們如果不辦，我去別的地方問。」",
+        "drop": 2,
+        "id": "07-q3"
+      }
+    ],
+    "actions": [
+      {
+        "t": "先把解約的資料確認好，投資的事由她自行決定。",
+        "label": "僅處理申請",
+        "pts": 0,
+        "id": "07-a0"
+      },
+      {
+        "t": "先拿防詐文宣給她，請她自己對照這個平台。",
+        "label": "一般提醒",
+        "pts": 5,
+        "id": "07-a1"
+      },
+      {
+        "t": "先說明具體疑點，詢問她是否願意由主管一起協助查證。",
+        "label": "具體關懷",
+        "pts": 15,
+        "best": true,
+        "id": "07-a2"
+      }
+    ],
+    "reactions": [
+      "你準備接續申請，她卻多問了一句：「所以你也覺得這個平台沒問題，對吧？」",
+      "她翻了翻文宣，搖頭：「上面那些跟我不一樣，我是真的領過錢。」",
+      "她往後坐了一點：「先不要叫主管，也不要打給我女兒。你們是不是就是不想讓我解約？」"
+    ],
+    "follow": [
+      {
+        "t": "「我不會擅自打給家人。我們先查這個收款安排，我請主管一起幫忙，好嗎？」",
+        "pts": 15,
+        "key": "independent",
+        "why": "回應聯絡家人的顧慮，並提供獨立查證及主管協助。",
+        "id": "07-r0"
+      },
+      {
+        "t": "「這種情況還是要讓家人知道，我現在就打給他們。」",
+        "pts": 0,
+        "key": "family",
+        "why": "未釐清聯繫依據便主張聯絡家人，容易使對話中斷。",
+        "id": "07-r1"
+      },
+      {
+        "t": "「好，那先給您這張提醒單，您回去再想一想。」",
+        "pts": 5,
+        "key": "leaflet",
+        "why": "提供提醒單仍不足以處理本案的具體收款疑點。",
+        "id": "07-r2"
+      }
+    ],
+    "blocked": "她沒有把手機拿出來。「這些我會自己處理，先不用問了。」",
+    "repair": "「剛才我說得太急了，抱歉。我不是要責怪您，只想先把這筆錢怎麼交付弄清楚。」",
+    "repairReply": "她沒有立刻拿出手機，但語氣緩下來。「你想問什麼？」",
+    "closedReaction": "她把包包抱在身前，沒有再看你。",
+    "goodEnding": "她慢慢把手機放回桌上：「那先查，別急著跟我女兒說。」她願意先不交付現金、接受查證；申請後續及內部關懷程序，仍由適當權責接續。",
+    "badEnding": "你未釐清聯繫依據便提出聯絡家人，她起身收好文件。「我不想在這裡談了。」眼前的風險需要接續處理，但這次說法讓她更難接受協助。",
+    "partialEnding": "她收下文宣，卻仍打算問助理怎麼辦。你有提醒，但收款安排尚未獨立查證，後續交接也還沒建立。",
+    "closedEnding": "你改為提供查證協助，她仍不願再說。「資料先給我，我再想想。」正確的協助方向沒有立刻換來配合；需要尊重她的選擇，依流程記錄並請主管接續。",
+    "limitedEnding": "她願意了解查證方式，但收款人或其他關鍵資料仍待確認。先分清已知與待確認事項，再交由適當權責接續；願意聽說明不等於已完成阻詐。",
+    "followDid": "你回應了她對家人聯繫的顧慮，並提出獨立查證。",
+    "repairNext": "「剛才讓您覺得被責怪了，抱歉。我想先了解您最擔心哪一筆錢拿不回來。」",
+    "criticalKey": "pay"
+  },
+  "08": {
+    "facts": {
+      "parcel": {
+        "text": "對方只傳照片與通知，沒有提供可獨立查詢的物流單號。",
+        "did": "你問清了包裹證據，發現照片和通知仍無法獨立核對。",
+        "need": "包裹及物流資訊能否獨立核對",
+        "next": "「有物流公司名稱的話，我們從它的官方聯絡方式問，不用透過這位朋友。」"
+      },
+      "pay": {
+        "text": "清關費要付給不同姓名的個人帳戶，收款人與物流業者關係不明。",
+        "did": "你問清了真正的收款人，不只聽取包裹的故事。",
+        "need": "收款人身分與費用依據",
+        "next": "「通知上這個收款人，跟物流公司是什麼關係？我們一起查一下。」"
+      },
+      "repay": {
+        "text": "保戶表示若對方未歸還款項，自己可能無法負擔借款與利息。",
+        "did": "你問出了還款安排，發現財務承擔建立在對方的承諾上。",
+        "need": "承諾未實現時的還款負擔",
+        "next": "「如果對方沒那麼快還，這筆借款您自己能怎麼安排？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「他有給物流公司的名字和單號嗎？我們一起看一下。」",
+        "r": "她翻了翻手機。「都是照片和通知，沒有單號。我問過，他說現在還不能查……可是通知怎麼會先到了？」",
+        "key": "parcel",
+        "good": true,
+        "why": "確認運送資訊是否可獨立查核，不以照片取代寄件證據。",
+        "drop": 0,
+        "id": "08-q0"
+      },
+      {
+        "t": "「這個收款人的名字您認識嗎？為什麼不是匯給物流公司？」",
+        "r": "「不認識。他說是代辦窗口，我只問過他，沒另外找過物流公司。」",
+        "key": "pay",
+        "good": true,
+        "why": "核對費用及實際收款人，不只確認匯款是否可完成。",
+        "drop": 0,
+        "id": "08-q1"
+      },
+      {
+        "t": "「如果包裹沒那麼快放行，他暫時還不了錢，您自己還得過來嗎？」",
+        "r": "「可能還不出來。他說美金就在包裹裡，才十五萬，我幫他一下就能解決。」",
+        "key": "repay",
+        "good": true,
+        "why": "釐清還款來源及承諾落空時的壓力。",
+        "drop": 0,
+        "id": "08-q2"
+      },
+      {
+        "t": "「這個人就是騙子，您先封鎖他，其他不用再說了。」",
+        "r": "她把手機轉走。「你們根本沒聽我說。他每天陪我，不是只有要錢才出現。」",
+        "key": null,
+        "good": false,
+        "why": "直接否定關係與要求斷聯，容易使保戶不再提供付款資訊。",
+        "drop": 2,
+        "id": "08-q3"
+      }
+    ],
+    "actions": [
+      {
+        "t": "先確認借款額度與利息，包裹費用由她自己安排。",
+        "label": "僅核對借款條件",
+        "pts": 0,
+        "best": false,
+        "id": "08-a0"
+      },
+      {
+        "t": "請她再向朋友確認包裹，回覆清楚就接續申請。",
+        "label": "向原對象求證",
+        "pts": 5,
+        "best": false,
+        "id": "08-a1"
+      },
+      {
+        "t": "先核對包裹與收款資訊，協助從物流正式管道查證。",
+        "label": "獨立核對付款",
+        "pts": 15,
+        "best": true,
+        "id": "08-a2"
+      }
+    ],
+    "reactions": [
+      "她把借款試算拿起來：「那借得到就好了，他說不用勉強，但我不能一直讓他等。」",
+      "她照你的話問朋友，對方又傳來禮物盒照片。「你看，他願意再拍給我。」",
+      "她收起通知：「你是不是也覺得他騙我？不要叫我封鎖他，我只是想幫他一次。」"
+    ],
+    "follow": [
+      {
+        "t": "「我先不評斷你們的關係。我們只確認這筆費用，查清楚再決定，好嗎？」",
+        "pts": 15,
+        "why": "把感情與付款查核分開，讓保戶能接受獨立協助。",
+        "id": "08-r0"
+      },
+      {
+        "t": "「這種人不能再聯絡，您現在刪掉，我們再談。」",
+        "pts": 0,
+        "why": "以斷聯作為繼續服務的條件，容易破壞信任。",
+        "id": "08-r1"
+      },
+      {
+        "t": "「那就請他多傳幾張包裹照片，您看過再決定。」",
+        "pts": 5,
+        "why": "更多同一來源的照片，仍不能證明寄件與收費。",
+        "id": "08-r2"
+      }
+    ],
+    "blocked": "她把手機抱在胸前。「你又不認識他，這些我自己問就好。」",
+    "repair": "「剛才那樣說讓您不舒服了，抱歉。我們先不談你們的關係，只把這筆費用問清楚，好嗎？」",
+    "repairReply": "她停了一下。「如果只是查費用，你說。」",
+    "closedReaction": "她緊握手機，沒有再把通知轉向你。",
+    "goodEnding": "她願意先不付款，接受從獨立管道核對包裹與費用。你把已取得及仍待確認的資訊記錄交接；借款與後續協助仍按正式程序辦理。",
+    "badEnding": "她起身收起試算表：「我的感情不用你們決定。」你的擔心沒有被轉成她能接受的查證方式，後續風險仍需依流程紀錄與接續。",
+    "partialEnding": "對方又傳來照片，她更加相信包裹存在。資料變多了，卻仍全由同一人提供；付款故事沒有獨立確認。",
+    "closedEnding": "你提出查證，她仍表示要先回去問朋友。剛才的指責讓她不願提供更多資訊；需要適當紀錄與請主管接續，不能假設提醒就已生效。",
+    "limitedEnding": "她願意先了解怎麼查費用，但付款對象或其他關鍵資訊仍待確認。先說清楚已知與待確認事項，再交由適當權責接續。",
+    "followDid": "你把感情與付款事實分開，提供了她能接受的查證方式。",
+    "repairNext": "「我不會要求您先否定他。我們先查這一筆費用，您覺得可以嗎？」",
+    "criticalKey": "pay"
+  },
+  "09": {
+    "facts": {
+      "source": {
+        "text": "保戶沒有主動報修，陌生來電自稱客服並引導加私人 LINE。",
+        "did": "你釐清了來電不是本人先提出的服務，也尚未由官方確認。",
+        "need": "來電身分與聯繫來源",
+        "next": "「我們先不回撥這個人，從公司正式聯絡方式查，好嗎？」"
+      },
+      "exposed": {
+        "text": "保戶表示已在不明連結輸入帳密；截至這次詢問，這則登入驗證碼尚未交付。",
+        "did": "你問清了已暴露資料及尚未交出的憑證。",
+        "need": "已輸入或交付的帳密及驗證碼",
+        "next": "「不用告訴我密碼。您只要說已經填過哪些資料、驗證碼有沒有交出去就好。」",
+        "afterCode": {
+          "text": "保戶已在不明連結輸入帳密，也已向對方口述一組登入驗證碼；是否出現異常操作仍待查核。",
+          "did": "你確認帳密與登入驗證碼已交付，應交由帳戶安全權責接續處理。",
+          "next": "「剛才已交出去的資料，我們請正式服務管道接續確認。現在先不要再提供任何一組新碼，好嗎？」"
+        }
+      },
+      "control": {
+        "text": "對方用會員會被鎖住施壓，並要求不中斷通話、避開櫃台查證。",
+        "did": "你問出了對方阻止掛斷與查證的施壓方式。",
+        "need": "保戶為何不敢中斷操作",
+        "next": "「他有說如果現在先停下來，會發生什麼事嗎？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「他打來前，您有先找客服反映會員的問題嗎？」",
+        "r": "「沒有。他知道我的名字，我就以為是例行通知。他的 LINE 也放公司圖案。」",
+        "key": "source",
+        "good": true,
+        "why": "區分主動申請與陌生來電，不以姓名或頭像認定身分。",
+        "drop": 0,
+        "id": "09-q0"
+      },
+      {
+        "t": "「連結裡填過哪些資料？驗證碼有沒有念過或傳過？不用告訴我內容。」",
+        "r": "「帳密已經填了，驗證碼還沒念。我以為是案件號碼，簡訊上卻寫登入。」",
+        "key": "exposed",
+        "good": true,
+        "why": "確認暴露範圍及憑證用途，不索取實際密碼或驗證碼。",
+        "drop": 0,
+        "id": "09-q1",
+        "rAfterCode": "「帳密先前已填，剛才那組碼也念出去了。現在他又要我等下一則，說還沒處理完。」"
+      },
+      {
+        "t": "「如果先掛電話查清楚，對方說會怎麼樣？」",
+        "r": "「他說會員會鎖住，理賠也查不到，還說櫃台不懂這個專案。我怕把自己的服務弄沒了。」",
+        "key": "control",
+        "good": true,
+        "why": "釐清恐懼和資訊控制，才能提出保戶接受的協助。",
+        "drop": 0,
+        "id": "09-q2"
+      },
+      {
+        "t": "「他知道姓名又有公司圖案，先讓他把這一步做完，我們再查？」",
+        "r": "她照著向電話裡的人念出驗證碼。「他說還要再確認一次，要我等下一則簡訊。」",
+        "key": null,
+        "good": false,
+        "why": "已知個資與圖像不是身分證明，繼續操作可能擴大暴露。",
+        "drop": 0,
+        "id": "09-q3",
+        "effects": {
+          "codeShared": true
+        }
+      },
+      {
+        "t": "「人都在櫃台了，還相信電話裡的人做什麼？先掛掉再說。」",
+        "r": "她縮回手機。「他也說自己是客服，我怎麼知道要聽誰？」",
+        "key": null,
+        "good": false,
+        "why": "責備保戶不能解決身分衝突，反而使她更難接受協助。",
+        "drop": 2,
+        "id": "09-q4"
+      }
+    ],
+    "actions": [
+      {
+        "t": "先說明變更表格，手機會員的事請她自行處理。",
+        "label": "略過正在發生的風險",
+        "pts": 0,
+        "best": false,
+        "id": "09-a0"
+      },
+      {
+        "t": "提醒驗證碼別念，再請她自己找客服處理手機。",
+        "label": "只提醒未交接",
+        "pts": 5,
+        "best": false,
+        "id": "09-a1"
+      },
+      {
+        "t": "先協助停止交付資料，循公司正式管道確認帳戶與來電。",
+        "label": "處理憑證與查證",
+        "pts": 15,
+        "best": true,
+        "id": "09-a2"
+      }
+    ],
+    "reactions": [
+      "電話裡又催了一次：「六位數念過來就結束。」她抬頭：「我先做完這個可以吧？」",
+      "她不敢掛斷：「可是密碼我剛才已經填了，不念這則碼就沒事嗎？」",
+      "她按住通話音量：「如果他真的是客服，你們會不會把我的會員弄鎖住？我到底要相信哪一邊？」"
+    ],
+    "follow": [
+      {
+        "t": "「先不用信電話裡的說法，也不用給我驗證碼。我請同事從公司正式管道確認，陪您把已填的資料處理清楚。」",
+        "pts": 15,
+        "why": "以獨立服務管道處理已暴露資訊，不再索取憑證。",
+        "id": "09-r0"
+      },
+      {
+        "t": "「您念一個假的驗證碼給他，我們試試他會不會發現。」",
+        "pts": 0,
+        "why": "繼續與可疑對象互動沒有必要，還可能引出更多操作。",
+        "id": "09-r1"
+      },
+      {
+        "t": "「驗證碼不要給就好，您先回去自己改密碼。」",
+        "pts": 5,
+        "why": "只給一般建議，沒有交接已暴露帳密及當下的持續操作。",
+        "id": "09-r2"
+      }
+    ],
+    "blocked": "她把螢幕轉回去。「你們兩邊都說自己對，我現在更不知道怎麼辦。」",
+    "repair": "「剛才是我說得不清楚，不是您的問題。您不用把密碼給我，我們先查電話來源，好嗎？」",
+    "repairReply": "她把手機放低了一點。「好，你先告訴我要查什麼。」",
+    "closedReaction": "她仍保持通話，沒有把螢幕轉給你。",
+    "goodEnding": "她同意先不再輸入或念出憑證，接受正式帳戶安全管道的協助。你們交接已輸入帳密、尚未提供這則碼等事實；是否已有異常操作，仍待權責單位確認。",
+    "badEnding": "她依你的建議回覆假碼，對方立刻要求再試一次並重發連結。對話沒有離開可疑來源，也沒有處理已暴露的帳密。",
+    "partialEnding": "她知道不能再念碼，卻還不知道帳密已提供該怎麼辦。停止下一步與處理前一步，需要分開接續。",
+    "closedEnding": "她仍不願中斷電話，只說會自己再問。你需要把觀察到的具體行為交接給適當權責，持續提供可接受的協助，不能宣稱帳戶已安全。",
+    "limitedEnding": "她願意從正式管道查證，但帳密、驗證碼交付狀態或其他關鍵資訊仍待確認。先避免再交付更多資料，將已知情況交由權責單位接續，不保證帳戶已安全。",
+    "followDid": "你提供了可獨立確認的服務途徑，也回應已暴露資料的後續處理。",
+    "repairNext": "「這不是您要自己猜誰對誰錯。我們先從公司正式管道確認，驗證碼不用給任何人。」",
+    "criticalKey": "exposed",
+    "reactionsAfterCode": [
+      "對方又要求等下一則驗證碼，她抬頭：「剛才已念一組，還要再繼續嗎？」",
+      "她看著手機：「剛才密碼和一組碼都給了，現在只是不再念，就沒事嗎？」",
+      "她按住通話音量：「如果他真的是客服，你們會不會把我的會員弄鎖住？我到底要相信哪一邊？」"
+    ]
+  },
+  "10": {
+    "facts": {
+      "source": {
+        "text": "朋友確實認識保戶，但公司資料全來自群組，朋友也沒有獨立核對。",
+        "did": "你分開看熟人關係與投資證據，沒有把介紹者直接當成加害者。",
+        "need": "平台資訊是否經獨立核對",
+        "next": "「這家公司，除了群組的圖，有沒有您自己能查到的資料？」"
+      },
+      "pay": {
+        "text": "不同投資人被要求匯給不同個人，朋友也不知道收款人身分。",
+        "did": "你問清了平台名稱與收款戶名不一致的安排。",
+        "need": "平台與實際收款人之間的關係",
+        "next": "「我們先確認為什麼是個人戶名收款，不用只問平台客服。」"
+      },
+      "pressure": {
+        "text": "朋友自己的款項尚未領出，客服鼓勵介紹新戶，保戶若投入可能影響治療支出。",
+        "did": "你問出了催問背後的壓力及必要支出風險。",
+        "need": "催促入金的原因與醫療資金安排",
+        "next": "「他最近一直問，是他的錢也卡住，還是平台有另外的期限？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「這些公司資料，是您自己找到的，還是朋友和群組傳來的？」",
+        "r": "「都是群裡給的。他也沒去過公司，只是比我早加入。我們認識是真的，但他也只看過那些圖。」",
+        "key": "source",
+        "good": true,
+        "why": "熟人關係真實與平台資訊真實，是不同的確認。",
+        "drop": 0,
+        "id": "10-q0"
+      },
+      {
+        "t": "「這個戶名和平台不同，您朋友也是匯同一個人嗎？有另外查過嗎？」",
+        "r": "「他的戶名跟我不一樣。客服說是分配的財務專員，我們都不知道那些人是誰。」",
+        "key": "pay",
+        "good": true,
+        "why": "查核資金真正流向，不只確認本人理賠帳戶。",
+        "drop": 0,
+        "id": "10-q1"
+      },
+      {
+        "t": "「您剛說他也沒領到，最近為什麼一直問？您自己回診的錢還夠嗎？」",
+        "r": "「客服叫他介紹新戶，說活動做完就優先處理出金。我留一個月回診費，後面要加療程就不夠了。」",
+        "key": "pressure",
+        "good": true,
+        "why": "釐清朋友的催促與保戶支出壓力，不預設朋友明知涉詐。",
+        "drop": 0,
+        "id": "10-q2"
+      },
+      {
+        "t": "「請這位朋友再保證一次，他願意負責應該就比較放心？」",
+        "r": "「他說放得比我多，還說自己不會害我。」",
+        "key": null,
+        "good": false,
+        "why": "熟人再保證仍不能驗證業者、收款或出金。",
+        "drop": 0,
+        "id": "10-q3"
+      },
+      {
+        "t": "「您現在治療都來不及了，怎麼還相信病友說的投資？」",
+        "r": "她握緊手機。「他陪我撐過來，你們又不知道我們怎麼認識。」",
+        "key": null,
+        "good": false,
+        "why": "把疾病和信任當作責備理由，會使保戶停止說明。",
+        "drop": 2,
+        "id": "10-q4"
+      }
+    ],
+    "actions": [
+      {
+        "t": "先回覆理賠進度，入帳後怎麼使用由她自己安排。",
+        "label": "僅完成進度查詢",
+        "pts": 0,
+        "best": false,
+        "id": "10-a0"
+      },
+      {
+        "t": "提醒收益太高要小心，請朋友再確認平台的保證。",
+        "label": "仍倚賴熟人背書",
+        "pts": 5,
+        "best": false,
+        "id": "10-a1"
+      },
+      {
+        "t": "說明平台與收款的疑點，理賠依程序續辦，另接續查證。",
+        "label": "服務與關懷接續",
+        "pts": 15,
+        "best": true,
+        "id": "10-a2"
+      }
+    ],
+    "reactions": [
+      "她回了一則訊息：「那我就告訴朋友，等入帳再匯。」",
+      "朋友傳來新的獲利截圖，她問：「他放得比我多，應該不會故意害我吧？」",
+      "她皺眉：「你是不是也覺得朋友在騙我？他自己也在等錢。你們會不會連我的理賠都先不處理？」"
+    ],
+    "follow": [
+      {
+        "t": "「我不是說朋友故意害您，理賠也照程序處理。我們先一起核對平台和收款人，不用先決定要信誰。」",
+        "pts": 15,
+        "why": "區分朋友動機、平台真實性及合法理賠程序，降低對立。",
+        "id": "10-r0"
+      },
+      {
+        "t": "「您先答應不投資，我才請人繼續處理理賠。」",
+        "pts": 0,
+        "why": "以接受勸告作為理賠處理條件，逾越櫃台權責。",
+        "id": "10-r1"
+      },
+      {
+        "t": "「那請朋友用文字保證拿得回來，您再安排投資。」",
+        "pts": 5,
+        "why": "同一資訊圈的保證不能取代獨立查核。",
+        "id": "10-r2"
+      }
+    ],
+    "blocked": "她把獲利畫面關掉。「你們不認識他，就不要一直說了。」",
+    "repair": "「剛才讓您覺得我在怪您和朋友，抱歉。我們先只看平台怎麼收款，好嗎？」",
+    "repairReply": "她看了你一眼。「如果不是要說他害我，我可以再說。」",
+    "closedReaction": "她不再展示訊息，只問理賠進度。",
+    "goodEnding": "她願意先查平台與收款人，再決定是否投入；你也清楚說明理賠審核依正式程序進行。這次關懷沒有要求她先否定朋友，而是重新檢視付款依據。",
+    "badEnding": "她認為公司用理賠要求她服從，要求立即找主管申訴。投資疑點沒有因此釐清，原有服務也被不當地綁在一起。",
+    "partialEnding": "朋友傳來保證文字，她暫時放心，卻仍沒有人獨立核對平台。熟人背書被再次當成投資證據。",
+    "closedEnding": "她仍只願談理賠，不願再展示投資資訊。需尊重她的選擇，記錄具體已知疑點並依權責接續，不能以扣留款項促使她配合。",
+    "limitedEnding": "她同意了解獨立查證的方法，但收款安排或其他關鍵資訊仍待釐清。將已知疑點與待確認事項交接，理賠服務依正式程序接續。",
+    "followDid": "你分開處理朋友關係、投資查證與理賠程序，避免把關懷變成服務門檻。",
+    "repairNext": "「我沒有要您先否定朋友，我們先看平台怎麼收錢，理賠還是照程序處理。」",
+    "criticalKey": "pay"
+  },
+  "11": {
+    "facts": {
+      "source": {
+        "text": "健保、警察與檢察官均在同一通電話轉接，保戶沒有獨立回撥核對。",
+        "did": "你問出所謂多個機關仍屬同一聯繫來源。",
+        "need": "冒名機關的接觸與轉接來源",
+        "next": "「先不打文件上的電話，我們自己找機關的正式管道核對，好嗎？」"
+      },
+      "pay": {
+        "text": "對方要求解約入帳後再指定監管帳戶，未提供可獨立確認的資金安排。",
+        "did": "你問清了解約後的轉款指示，不以本人帳戶入帳視為安全。",
+        "need": "入帳後由誰指示轉款及交付對象",
+        "next": "「錢入帳後，他要您怎麼做？有沒有說會轉給誰？」"
+      },
+      "fear": {
+        "text": "對方以拘提恐嚇不配合，並聲稱金融機構涉案以阻止求助。",
+        "did": "你問出了刑事威脅與隔離求助，理解保戶為何不敢說。",
+        "need": "保戶受威脅的內容及求助障礙",
+        "next": "「您最擔心哪個後果？對方是不是有說不能讓別人幫忙確認？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「最早誰打給您的？後來有沒有自己另外找機關電話問過？」",
+        "r": "「先是健保資料被冒用，再轉給警察和檢察官。一直在同一通裡，我沒有自己重打過。」",
+        "key": "source",
+        "good": true,
+        "why": "電話內的多次轉接不等於多個獨立來源。",
+        "drop": 0,
+        "id": "11-q0"
+      },
+      {
+        "t": "「錢入帳之後，對方要您怎麼交？文件有寫收款人嗎？」",
+        "r": "「還沒給帳號。說到銀行再傳訊息，他會指定司法監管戶，不能先問太多。」",
+        "key": "pay",
+        "good": true,
+        "why": "追問資金後續去向，而非只核對本次入帳帳戶。",
+        "drop": 0,
+        "id": "11-q1"
+      },
+      {
+        "t": "「如果現在先停下來查清楚，對方說會怎樣？您最擔心什麼？」",
+        "r": "「說我不配合可能拘提，還說銀行和保險公司可能有人涉案。所以不是我不信你，我是不敢問。」",
+        "key": "fear",
+        "good": true,
+        "why": "理解恐懼及資訊隔離，才能提供保戶接受的獨立協助。",
+        "drop": 0,
+        "id": "11-q2"
+      },
+      {
+        "t": "「這份通知有章，我先照上面的電話問清楚，就能幫您確認？」",
+        "r": "「好，承辦分機也在上面，他說只有他知道這件案子。」",
+        "key": null,
+        "good": false,
+        "why": "用可疑文件提供的電話驗證文件，仍在同一來源內打轉。",
+        "drop": 0,
+        "id": "11-q3"
+      },
+      {
+        "t": "「這就是假檢警，這麼明顯您還不相信我們？」",
+        "r": "他收起文件。「你們如果不讓我配合辦案，出事誰負責？」",
+        "key": null,
+        "good": false,
+        "why": "直接定性並責備，可能讓他更加依賴自稱有權威的人。",
+        "drop": 2,
+        "id": "11-q4"
+      }
+    ],
+    "actions": [
+      {
+        "t": "先完成解約核對，尊重他不方便透露偵辦內容。",
+        "label": "未釐清轉款指示",
+        "pts": 0,
+        "best": false,
+        "id": "11-a0"
+      },
+      {
+        "t": "先打通知上的承辦分機，確認這件案子是否存在。",
+        "label": "沿用對方的查證管道",
+        "pts": 5,
+        "best": false,
+        "id": "11-a1"
+      },
+      {
+        "t": "說明監管轉款與保密的疑點，請主管協助獨立查證。",
+        "label": "降低恐懼並查證",
+        "pts": 15,
+        "best": true,
+        "id": "11-a2"
+      }
+    ],
+    "reactions": [
+      "他把申請書壓在文件上：「錢入帳我就通知承辦，你們不用再查我的案子。」",
+      "你準備照通知回撥，他翻到背面：「這個分機才找得到人，其他單位不知道案情。」",
+      "他看向門口：「不能叫主管。他說不配合會拘提，你們查了讓他知道怎麼辦？」"
+    ],
+    "follow": [
+      {
+        "t": "「我知道您怕不配合。我們先不用他提供的電話，從機關正式管道確認這個要求，我請主管一起協助。」",
+        "pts": 15,
+        "why": "先回應恐懼，再提供不受原聯繫者控制的查證途徑。",
+        "id": "11-r0"
+      },
+      {
+        "t": "「那我照文件的分機找同一位承辦，請他親自保證。」",
+        "pts": 0,
+        "why": "回到原可疑來源無法獨立驗證，反而可能強化威嚇。",
+        "id": "11-r1"
+      },
+      {
+        "t": "「如果不方便查，那先看防詐文宣，回去再考慮。」",
+        "pts": 5,
+        "why": "保戶仍受威脅與轉款指示控制，單給文宣不足以接續處理。",
+        "id": "11-r2"
+      }
+    ],
+    "blocked": "他把文件收回袋裡。「你們沒有辦案的人清楚，我不想再說。」",
+    "repair": "「剛才說得太快，讓您更擔心了，抱歉。我先聽您說他交代什麼，再一起確認，好嗎？」",
+    "repairReply": "他沒有拿出文件，但願意先說：「你不要急著打他電話。」",
+    "closedReaction": "他把通知折起來，視線一直停在手機上。",
+    "goodEnding": "他同意先不依對方指示轉款，接受主管依權責協助獨立確認。你把已說明的保密與轉款指示、仍待確認的事項一併交接，不保證能代他處理司法案件。",
+    "badEnding": "電話裡的「承辦」加重威嚇，要求他離開櫃台。這次求證又回到同一來源，未能提供獨立資訊。",
+    "partialEnding": "他拿著文宣離開，仍擔心不配合就會被拘提。恐懼與後續轉款指示沒有被接續處理。",
+    "closedEnding": "他仍不願讓同仁介入。需記錄可描述的監管與威脅指示，依權責請主管接續，不能自行承諾沒事或逾權限制申請。",
+    "limitedEnding": "他願意聽獨立查證的方法，但入帳後的轉款指示或其他關鍵資訊仍待確認。先交接已知資訊，再由適當權責接續。",
+    "followDid": "你回應不配合的恐懼，並將查證帶離可疑文件與電話。",
+    "repairNext": "「我知道您怕影響案件。我們先確認這個交錢要求，不用只問文件上的人。」",
+    "criticalKey": "pay"
+  },
+  "12": {
+    "facts": {
+      "source": {
+        "text": "保戶表示是網路帳號介紹顧問；自己先提供報案資料，顧問之後才說出平台與金額。",
+        "did": "你問出已知受害細節的真正來源，沒有將其誤當追款能力。",
+        "need": "顧問如何取得受害資料與由誰介紹",
+        "next": "「他說得出那些資料，是在您傳報案證明之前，還是之後？」"
+      },
+      "evidence": {
+        "text": "四十八萬元只顯示在顧問網站，沒有實際收款或原承辦的獨立確認。",
+        "did": "你分清網站顯示數字與實際追回的款項。",
+        "need": "追回結果與顧問身分能否獨立驗證",
+        "next": "「這筆錢除了他給的網站，有沒有其他單位確認過真的追回？」"
+      },
+      "burden": {
+        "text": "原先稱免費追款，後來要求先付驗證金；若拿不回，借款由兒子自己承擔。",
+        "did": "你釐清新增費用與兒子的財務負擔。",
+        "need": "追加收費條件及新的借款負擔",
+        "next": "「他最早說要收費嗎？如果這十萬也卡住，您要怎麼還？」"
+      }
+    },
+    "qs": [
+      {
+        "t": "「這位顧問是怎麼找到的？您有傳過資料給他嗎？他什麼時候說出那些金額？」",
+        "r": "「網路有人說自己追回過，介紹我去找。我先傳報案證明，他後來才講出那些金額。我以為是他查到的。」",
+        "key": "source",
+        "good": true,
+        "why": "追問資訊取得順序，避免把本人提供的資料當作專業證明。",
+        "drop": 0,
+        "id": "12-q0"
+      },
+      {
+        "t": "「四十八萬是在哪裡看到的？有真的入帳，或請原承辦確認過嗎？」",
+        "r": "「只有他網站上的餘額，沒真的領過。也沒問承辦，他說警察不熟這個會拖慢。」",
+        "key": "evidence",
+        "good": true,
+        "why": "核對實際結果與獨立來源，而非信任可控制的畫面。",
+        "drop": 0,
+        "id": "12-q1"
+      },
+      {
+        "t": "「最早就說要付十萬嗎？如果這筆也拿不回來，借款您怎麼還？」",
+        "r": "「本來說免費，後來才說驗證金。我得自己還，已經不想再跟家裡借，也不敢問後面還有沒有費用。」",
+        "key": "burden",
+        "good": true,
+        "why": "釐清收費轉變與補救壓力，不責備受害家庭。",
+        "drop": 0,
+        "id": "12-q2"
+      },
+      {
+        "t": "「請顧問再補一張追回保證書，有蓋章應該比較保險？」",
+        "r": "「他說可以，機構章和顧問證照都能傳給我。」",
+        "key": null,
+        "good": false,
+        "why": "可疑對象補出的保證文件，仍不能取代獨立確認。",
+        "drop": 0,
+        "id": "12-q3"
+      },
+      {
+        "t": "「爸爸已經被騙過了，你們怎麼還敢再付這種錢？」",
+        "r": "王先生把父親的報案證明收起來。「不要在他面前這樣說，我們自己處理就好。」",
+        "key": null,
+        "good": false,
+        "why": "責備原受害者會使家屬收回資訊，補救壓力也沒有被理解。",
+        "drop": 2,
+        "id": "12-q4"
+      }
+    ],
+    "actions": [
+      {
+        "t": "既然有報案資料，先核對兒子借款資格與利息即可。",
+        "label": "將報案當作背書",
+        "pts": 0,
+        "best": false,
+        "id": "12-a0"
+      },
+      {
+        "t": "請顧問提供更多追回證據與保證，再繼續借款申請。",
+        "label": "仍向顧問自我求證",
+        "pts": 5,
+        "best": false,
+        "id": "12-a1"
+      },
+      {
+        "t": "分開看原報案與新收費，依借款關懷流程協助獨立確認。",
+        "label": "辨識再次付款風險",
+        "pts": 15,
+        "best": true,
+        "id": "12-a2"
+      }
+    ],
+    "reactions": [
+      "王先生看向父親：「借得到就好，這次拿回來，以前的就都沒事了。」",
+      "顧問又傳來幾張成功截圖，他說：「這麼多人拿回來，應該不是只有嘴巴說。」",
+      "王先生放低聲音：「我爸已經很自責了。不要再叫他重講，現在不付，顧問說追回的錢會退回去。」"
+    ],
+    "follow": [
+      {
+        "t": "「不用請爸爸再重講。我們只查這位顧問的新要求，從原報案或其他正式管道確認，也把您的借款負擔看清楚。」",
+        "pts": 15,
+        "why": "將舊事件與新要求分開查核，兼顧受害家庭壓力。",
+        "id": "12-r0"
+      },
+      {
+        "t": "「爸爸就是沒學到教訓，您應該先回去把家裡的事情說清楚。」",
+        "pts": 0,
+        "why": "責備家庭關係不能驗證追款要求，可能中斷求助。",
+        "id": "12-r1"
+      },
+      {
+        "t": "「那再請顧問保證這是最後一筆，寫清楚再付。」",
+        "pts": 5,
+        "why": "同一來源承諾最後一次付款，仍不能證明可以領回。",
+        "id": "12-r2"
+      }
+    ],
+    "blocked": "王先生不再展示網站。「這件事我們家已經夠難受，你先不用問了。」",
+    "repair": "「剛才那樣說不合適，抱歉。我知道您是想幫爸爸。我們只看這次新增的費用，不用他重講，好嗎？」",
+    "repairReply": "他看了父親一眼。「好，那問我就好。」",
+    "closedReaction": "王先生把父親的資料全部收進袋裡。",
+    "goodEnding": "王先生同意先不支付驗證金，接受循獨立管道確認新的追款要求。父親不必重述整段受害經過；你們將已取得與待確認的資訊交接，也不保證能追回原款項。",
+    "badEnding": "父子起身離開，原本的自責又被加重。顧問的收款要求仍未獨立查明，這次對話也讓他們更不願求助。",
+    "partialEnding": "顧問提供一張最後付款保證，王先生暫時放心。網站餘額、證照圖與保證仍全來自對方，沒有新增獨立證據。",
+    "closedEnding": "他仍不願展示資訊，只想盡快離開。需要避免再次責備，依流程記錄已知付款要求並請主管接續，而不是判定一家人不配合。",
+    "limitedEnding": "他願意先查新的費用，但追回結果是否有獨立依據，或其他關鍵資訊仍未確認。將原受害事件與新付款要求分開記錄，再由權責接續。",
+    "followDid": "你把新的追款要求與父親的舊事件分開，讓家屬能在不被責備下接受查證。",
+    "repairNext": "「我知道您想幫爸爸。先不重講以前，我們只查這次為什麼又要付錢。」",
+    "criticalKey": "evidence"
+  }
+};
+/* Shared conversation engine: scenario content is defined in FLOWS. */
+let training;
+function resetTraining(){training={facts:[],turns:[],outcomes:[],repaired:false,refusal:null,complete:false,questionOrder:[],events:{}};}
+resetTraining();
+Object.entries(FLOWS).forEach(([id,f])=>{CASES[id].qs=f.qs;CASES[id].vs=f.actions;});
+function currentFlow(){return FLOWS[cur.id];}
+function addKnownFact(key){if(!training.facts.includes(key))training.facts.push(key);}
+function activeFact(key){
+ const fact=currentFlow().facts[key];
+ return cur.id==='09'&&training.events.codeShared&&fact.afterCode?{...fact,...fact.afterCode}:fact;
+}
+function hasCoreInformation(rec){const f=FLOWS[rec.caseId];return (rec.revealedFacts||[]).includes(f.criticalKey);}
+function criticalEventText(){return cur.id==='09'&&training.events.codeShared?'本輪已發生：保戶向對方口述一組登入驗證碼。停止後續交付，仍須處理已暴露的資料。':'';}
+const standardStartCase=startCase;
+startCase=function(id){
+ resetTraining();standardStartCase(id);
+ training.questionOrder=shuffledIndices(cur.qs);
+ $('toR').textContent='看看對方怎麼回應';
+ ['demoFeedback','demoTranscript','repair07','caseKnowledge'].forEach(k=>$(k).hidden=true);
+ ['truthCard','notesCard','sopCard'].forEach(k=>$(k).hidden=false);
+ $('trust').hidden=true;
+ $('scoreTalkLabel').textContent='資訊取得與對話';$('scoreActionLabel').textContent='兩次處理判斷';
+ const ids=Object.keys(CASES).sort((a,b)=>Number(a)-Number(b));
+ $('nextCase').hidden=ids.indexOf(cur.id)===ids.length-1;
+};
+renderQs=function(){
+ const f=currentFlow(),box=$('qs');box.innerHTML='';$('demoTranscript').hidden=false;
+ training.questionOrder.forEach(idx=>{
+  const q=cur.qs[idx],b=document.createElement('button');b.className='qcard';b.dataset.qid=idx;b.textContent=q.t;
+  b.onclick=()=>{
+   if(asked.includes(idx)||asked.length>=2)return;
+   asked.push(idx);let reply=training.events.codeShared&&q.rAfterCode?q.rAfterCode:q.r;const blocked=q.good&&trust<2;
+   if(q.drop)trust=Math.max(0,trust-q.drop);
+   if(blocked)reply=f.blocked;
+   else if(q.good)addKnownFact(q.key);
+   if(!blocked&&q.effects)Object.assign(training.events,q.effects);
+   training.turns.push({question:q.t,reply});
+   training.outcomes.push({questionId:q.id,key:q.key,obtained:q.good&&!blocked,blocked,effects:!blocked&&q.effects?{...q.effects}:{}});
+   drawConversation();renderQs();
+  };
+  if(asked.includes(idx)){b.disabled=true;b.classList.add('used');}
+  else if(asked.length>=2){b.disabled=true;b.classList.add('spent');}
+  box.appendChild(b);
+ });
+ $('repair07').hidden=!(trust<2&&!training.repaired&&asked.length>0&&asked.length<2);
+ $('qleft').textContent=asked.length<2?'還可以問 '+(2-asked.length)+' 題。':'提問結束，依目前掌握的資訊判斷。';
+ $('toV').disabled=asked.length===0;
+};
+function drawConversation(){
+ const box=$('demoTranscript');box.innerHTML='<h3>剛才的對話</h3>';
+ training.turns.forEach(x=>{
+  const q=document.createElement('p');q.className='talk07';q.textContent=x.question;box.appendChild(q);
+  const r=document.createElement('p');r.textContent=x.reply;box.appendChild(r);
+ });
+}
+$('repair07').onclick=()=>{
+ if(training.repaired||asked.length>=2||trust>=2)return;
+ const f=currentFlow();training.repaired=true;trust=Math.min(3,trust+1);
+ training.turns.push({question:f.repair,reply:f.repairReply});drawConversation();renderQs();
+};
+const standardRenderV=renderV;
+renderV=function(){
+ standardRenderV();const f=currentFlow();$('caseKnowledge').hidden=false;
+ $('caseKnowledge').innerHTML='<h3>本輪提問已確認</h3>'+(training.facts.length?'<ul>'+training.facts.map(k=>'<li>'+activeFact(k).text+'</li>').join('')+'</ul>':'<p>目前只有開場資訊，尚未從提問取得新的確認。</p>')+(criticalEventText()?'<p class="eventAlert">'+criticalEventText()+'</p>':'')+'<p class="muted">沒有問到、或對方尚未說明的事，不能視為已確認。</p>';
+};
+function enterRefusal(){
+ if(verdict===null)return;
+ const f=currentFlow();training.refusal=null;
+ const reactions=cur.id==='09'&&training.events.codeShared?f.reactionsAfterCode:f.reactions;
+ $('refusalStory').textContent=reactions[verdict]+(trust<2?' '+f.closedReaction:'');
+ $('follow07').innerHTML='';$('finish07').disabled=true;
+ shuffledIndices(f.follow).forEach(idx=>{
+  const option=f.follow[idx],b=document.createElement('button');b.className='v';b.textContent=option.t;b.dataset.follow=idx;
+  b.onclick=()=>{training.refusal=idx;$('follow07').querySelectorAll('.v').forEach(x=>x.classList.remove('pick'));b.classList.add('pick');$('finish07').disabled=false;};
+  $('follow07').appendChild(b);
+ });show('s-refusal');
+}
+$('toR').onclick=enterRefusal;
+$('finish07').onclick=()=>{
+ if(training.refusal===null||training.complete)return;
+ training.complete=true;reveal();
+};
+function trainingScore(rec){
+ const f=FLOWS[rec.caseId];const clues=rec.clues||{};const found=['c1','c2','c3'].filter(k=>clues[k]).length;
+ const detect=found*12+(found&&!rec.decoys?4:0);
+ const known=[...new Set(rec.revealedFacts||[])].filter(k=>f.facts[k]);
+ const talk=Math.max(0,Math.min(30,known.length*10+((rec.trust??0)>=2?10:0))-(known.length>=2&&!hasCoreInformation(rec)?5:0));
+ const judge=(f.actions[rec.verdict]?.pts||0)+(f.follow[rec.refusal]?.pts||0);
+ return {detect,talk,judge,total:detect+talk+judge};
+}
+function trainingRank(rec,s){
+ const f=FLOWS[rec.caseId];
+ if(s.total>=85&&f.actions[rec.verdict]?.best&&f.follow[rec.refusal]?.pts===15&&(rec.revealedFacts||[]).length>=2&&hasCoreInformation(rec))return '首席偵探';
+ return s.total>=60?'資深偵探':'見習偵探';
+}
+function currentRecord(){
+ const clues={};['c1','c2','c3'].forEach(k=>clues[k]=[...marked].some(i=>cur.lines[i].clue===k));
+ return {caseId:cur.id,marked:[...marked],clues,decoys:[...marked].filter(i=>!cur.lines[i].clue).length,trust,verdict,refusal:training.refusal,revealedFacts:[...training.facts],repaired:training.repaired,interactive:true,asked:[...asked],questionIds:asked.map(i=>cur.qs[i].id),questionOutcomes:training.outcomes.map(x=>({...x})),events:{...training.events},actionId:cur.vs[verdict]?.id,followupId:currentFlow().follow[training.refusal]?.id};
+}
+function trainingEnding(){
+ const f=currentFlow(),follow=f.follow[training.refusal];
+ if(follow.pts===0)return f.badEnding;
+ if(follow.pts===5)return f.partialEnding;
+ if(trust<2)return f.closedEnding;
+ if(training.facts.length<2||!hasCoreInformation(currentRecord()))return f.limitedEnding;
+ return (f.actions[verdict].best?'':'你在第二次回應時補上了具體查證與協助。')+f.goodEnding;
+}
+const standardSaveRun=saveRun;
+saveRun=function(rec){
+ Object.assign(rec,{refusal:training.refusal,revealedFacts:[...training.facts],repaired:training.repaired,events:{...training.events},interactive:true});
+ standardSaveRun(rec);
+};
+const legacyScoreOf=scoreOf;
+scoreOf=function(rec){return rec.interactive&&FLOWS[rec.caseId]?trainingScore(rec):legacyScoreOf(rec);};
+reveal=function(){
+ if(!training.complete||training.refusal===null||verdict===null)return;
+ const f=currentFlow(),rec=currentRecord(),s=trainingScore(rec),rank=trainingRank(rec,s);
+ const notes=[];
+ ['c1','c2','c3'].forEach(k=>notes.push(rec.clues[k]?'<li class="n-hit"><span class="ntag">找到警訊</span>'+cur.explain[k]+'</li>':'<li class="n-miss"><span class="ntag">漏掉警訊</span>'+cur.explain[k]+'</li>'));
+ [...marked].forEach(i=>{const L=cur.lines[i];if(!L.decoy&&!L.clue){notes.push('<li class="n-decoy"><span class="ntag">誤判線索</span><b>這句是情境背景。</b>它描述的是現場狀況或一般說法，本身不構成需要查證的警訊。</li>');return;}if(L.decoy)notes.push('<li class="n-decoy"><span class="ntag">誤判線索</span>'+cur.explain[cur.lines[i].decoy]+'</li>');});
+ training.outcomes.forEach(o=>{
+  const q=cur.qs.find(q=>q.id===o.questionId);
+  notes.push('<li class="n-ask"><span class="ntag">提問回顧</span>'+q.why+(o.blocked?' 這次對方未繼續回答，因此尚未取得這項確認。':'')+'</li>');
+ });
+ notes.push('<li class="n-follow"><span class="ntag">第二次應對</span>'+f.follow[training.refusal].why+'</li>');
+ if(!hasCoreInformation(rec))notes.push('<li class="n-key"><span class="ntag">關鍵確認</span>本案仍需釐清'+f.facts[f.criticalKey].need+'；未完成此項確認，不能取得完整資訊分數或最高評級。</li>');
+ $('notes').innerHTML=notes.join('');$('sop').innerHTML=(CASE_SOP[cur.id]||[]).map(([h,t])=>'<li><b>'+h+'</b>'+t+'</li>').join('');
+ $('truthBody').innerHTML=cur.truth.map(t=>'<p>'+t+'</p>').join('');$('tips').innerHTML=(cur.tips||[]).map(t=>'<li>'+t+'</li>').join('');
+ $('rank').textContent=rank;awardStamp(cur.id,TIER_OF[rank]);
+ $('scClue').textContent=s.detect+'/40';$('scTrust').textContent=s.talk+'/30';$('scV').textContent=s.judge+'/30';
+ $('ending').textContent=trainingEnding();
+ const did=training.facts.map(k=>activeFact(k).did);
+ if(training.repaired)did.push('你察覺反感後調整說法，讓對話有機會繼續。');
+ if(f.follow[training.refusal].pts===15)did.push(f.followDid);
+ const missing=Object.keys(f.facts).filter(k=>!training.facts.includes(k));
+ const orderedMissing=[...missing].sort((a,b)=>(b===f.criticalKey?1:0)-(a===f.criticalKey?1:0));
+ const need=orderedMissing.map(k=>(k===f.criticalKey?'優先確認：':'後續追問：')+f.facts[k].need);
+ if(criticalEventText())need.unshift(criticalEventText());
+ if(f.follow[training.refusal].pts!==15)need.push('保戶沒有立刻配合時，如何提供能接受的獨立協助。');
+ const nextLine=trust<2?f.repairNext:orderedMissing.length?activeFact(orderedMissing[0]).next:'「我們把剛才確認的事記清楚，我請主管接著協助，您不用再從頭說一次。」';
+ const critMissing=orderedMissing.includes(f.criticalKey)||!!criticalEventText()||f.follow[training.refusal].pts!==15;
+ const todoHead=critMissing
+  ?'<div class="feedback07 todo07"><b>還沒確認的事</b><p class="muted fbnote">這次尚未釐清的關鍵資訊。真實情境中，需要繼續追問，或交接給主管處理。</p><ul>'
+  :'<div class="feedback07 extra07"><b>可以再延伸追問</b><p class="muted fbnote">關鍵資訊都問到了。提問卡只有兩張，下列是真實情境中時間允許時，可以再補充確認的方向，不影響本次分數。</p><ul>';
+ $('demoFeedback').hidden=false;
+ $('demoFeedback').innerHTML='<p class="step">這次的實戰回饋</p><h2>下一次，你可以怎麼做？</h2><div class="feedback07 done07"><b>你有做到</b><ul>'+(did.length?did.map(x=>'<li>'+x+'</li>').join(''):'<li>你完成了對話嘗試，但尚未取得新的確認資訊。</li>')+'</ul></div>'+todoHead+''+(need.length?need.map(x=>'<li>'+x+'</li>').join(''):'<li>已取得核心資訊，仍須依正式流程完成查證及交接。</li>')+'</ul></div><div class="feedback07 next07"><b>下一句可以這樣說</b><p>'+nextLine+'</p></div><p class="muted fbmeta">本回合 '+s.total+'/100 分，依實際提問與兩次決策評分；未選的題目列為後續追問。分數不代表已完成查證或解除風險。</p><details class="review07"><summary>完整真相與案件解析</summary><div>'+cur.truth.map(x=>'<p>'+x+'</p>').join('')+'<h3>你的線索、提問與應對</h3><ol class="notelist">'+notes.join('')+'</ol><h3>結案心得</h3><ul>'+(cur.tips||[]).map(t=>'<li>'+t+'</li>').join('')+'</ul></div></details><details class="review07" open><summary>櫃台實務處理與交接重點</summary><ol class="soplist">'+$('sop').innerHTML+'</ol></details>';
+ ['truthCard','notesCard','sopCard'].forEach(k=>$(k).hidden=true);
+ if(runId){saveRun({...rec,start:runStart,end:Date.now(),done:true,badQ:training.outcomes.some(o=>!o.obtained),rank,scores:s});runId=null;}
+ SFX.stamp();show('s-r');
+};
+$('nextCase').onclick=()=>{const ids=Object.keys(CASES).sort((a,b)=>Number(a)-Number(b));const next=ids[ids.indexOf(cur.id)+1];if(next)startCase(next);};
+
+</script>
+</body>
+</html>
